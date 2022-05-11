@@ -14,7 +14,6 @@ class ErhuoApplicationTests {
     void contextLoads() {
     }
 
-
     @Autowired
     UserDao userDao;
     @Autowired
@@ -24,7 +23,6 @@ class ErhuoApplicationTests {
     
     @Test
     void testUser(){
-        System.out.println(userController.getAllUser());
+        //System.out.println(userController.getAllUser());
     }
-
 }

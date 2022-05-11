@@ -19,6 +19,7 @@ server:
   servlet:
     encoding:
       enabled: false
+    context-path: /erhuo
 
 #???????
   port: 80
