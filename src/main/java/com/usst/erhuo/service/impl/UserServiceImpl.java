@@ -1,5 +1,6 @@
 package com.usst.erhuo.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.usst.erhuo.dao.UserDao;
 import com.usst.erhuo.entity.User;
 import com.usst.erhuo.service.UserService;
