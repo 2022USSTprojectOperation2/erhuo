@@ -39,4 +39,9 @@ public class GoodsDaoTests {
     void testSelectByPage(){
         goodsDao.selectByUserAndPage(1,2,2);
     }
+
+    @Test
+    void testSum(){
+        System.out.println(goodsDao.getSum());
+    }
 }
