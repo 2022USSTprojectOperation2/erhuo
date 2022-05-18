@@ -13,4 +13,6 @@ public class Goods {
     private String imgPath;  //封面图
     private String introduction;
     private int flag;  //约定各状态后更新此条
+    private int kindId;
+    private int likelevel;
 }
