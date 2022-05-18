@@ -20,9 +20,8 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @PostMapping("/all")
-    public List<User> getAllUser(String name, HttpSession session){
-        //System.out.println(name);
+    @GetMapping("/all")
+    public List<User> getAllUser(){
         return userService.getAllUser();
     }
 }

@@ -62,9 +62,9 @@
         methods: {
             getAllInfro() {
                 let param = new URLSearchParams();
-                param.append("name", this.name);
+                //param.append("name", this.name);
                 axios({
-                    method: "post",
+                    method: "get",
                     url: projectName + "/user/all",
                     data: param
                 }).then((res) => {
