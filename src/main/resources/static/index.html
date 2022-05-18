@@ -3,274 +3,57 @@
 <head>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap5/css/bootstrap.min.css">
     <script src="./js/vue.js"></script>
-    <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script src="./js/axios-0.18.0.js"></script>
     <link rel="stylesheet" href="./js/element-ui/lib/theme-chalk/index.css">
     <script src="./js/element-ui/lib/index.js"></script>
-    <link href="css/window.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/index.css">
     <title>登录</title>
-    <style>
-        a:link {
-            text-decoration: none; /* 指正常的未被访问过的链接*/
-        }
-        a:visited {
-            text-decoration: none; /*指已经访问过的链接*/
-        }
-        a:hover {
-            text-decoration: none; /*指鼠标在链接*/
-        }
-        a:active {
-            text-decoration: none; /* 指正在点的链接*/
-        }
-    </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="form-box">
-        <div class="register-box  hidden">
-            <h1>注 册</h1>
-            <!-- 头像、个人简介 在个人信息修改里设置 -->
-            <input type="text" id="u_id_register" placeholder="用户名">
-            <input type="password" id="password1_register" required placeholder="密码">
-            <input type="password" id="password2_register" required placeholder="确认密码">
-            <input type="text" id="nickname_register" placeholder="昵称">
-            <input type="text" id="phone_register" placeholder="手机号">
-            <span id="err" style="color: red"></span>
-            <span id="err2" style="color: red"></span>
-            <button id="btn_register">注册</button>
+<div id="app" class="container mt-5">
+<el-container>
+    <el-header><h2 class="text-center">“二货”交易平台</h2></el-header>
+    <el-main>
+        <div class="container w-50">
+        <el-tabs type="border-card" stretch="true">
+            <el-tab-pane label="登录" class="text-center">
+                <el-input class="mt-3"  v-model.number="login_user.id" placeholder="请输入用户名"
+                          prefix-icon="el-icon-user"></el-input>
+                <el-input class="mt-3"  v-model="login_user.password" placeholder="请输入密码" show-password
+                          prefix-icon="el-icon-lock"></el-input>
+                <el-button class="mt-3 w-25" type="primary" @click="login()">登录</el-button>
+            </el-tab-pane>
+            <el-tab-pane label="注册" class="text-center">
+                <el-input class="mt-3"  v-model.number="register_user.id" placeholder="请输入用户名"
+                          prefix-icon="el-icon-user"></el-input>
+                <el-input class="mt-3"  v-model="register_user.password" placeholder="请输入密码" show-password
+                          prefix-icon="el-icon-lock"></el-input>
+                <el-input class="mt-3"  v-model.number="register_user.phone" placeholder="请输入手机号"
+                          prefix-icon="el-icon-lock"></el-input>
+                <el-button class="mt-3 w-25" plain @click="register()">注册</el-button>
+            </el-tab-pane>
+        </el-tabs>
         </div>
-        <div class="login-box">
-            <h1>登 录</h1>
-            <input type="text" id="u_id_login" placeholder="用户名">
-            <input type="password" id="password_login" placeholder="密码">
-            <button id="btn_login">登录</button>
-            <br>
-            <br>
-            <a href="forgetPassword.html" style="font-family: 华文新魏;">忘记密码</a>
-        </div>
-    </div>
-    <div class="con-box left">
-        <h2>"二货"交易平台</h2>
-        <img src="./background/icon.png">
-        <p>已有账号</p>
-        <button id="login">去登陆</button>
-    </div>
-    <div class="con-box right">
-        <h2>"二货"交易平台</h2>
-        <img src="background/icon.png" alt="">
-        <p>没有账号？</p>
-        <button id="register">去注册</button>
-    </div>
+    </el-main>
+</el-container>
 </div>
-<script>
-    // 要操作到元素
-    let login = document.getElementById('login');
-    let register = document.getElementById('register');
-    let form_box = document.getElementsByClassName('form-box')[0];
-    let register_box = document.getElementsByClassName('register-box')[0];
-    let login_box = document.getElementsByClassName('login-box')[0];
-
-    // 去注册按钮点击事件
-    register.addEventListener('click', () => {
-        form_box.style.transform = 'translate(80%)';
-        login_box.classList.add('hidden');
-        register_box.classList.remove('hidden');
-    })
-    // 去登录按钮点击事件
-    login.addEventListener('click', () => {
-        form_box.style.transform = 'translate(0%)';
-        register_box.classList.add('hidden');
-        login_box.classList.remove('hidden');
-    })
-
-    var pathName = window.location.pathname;
-    var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-
-    // 登录
-    $("#btn_login").on("click", function () {
-        var uid = $("#u_id_login").val()
-        var password = $("#password_login").val()
-        if (uid.trim() === '' || password.trim() === '') {
-            alert("请输入用户名或者密码！")
-        } else {
-            var curWwwPath = window.location.href;
-            $.ajax({
-                // 发起登录请求
-                url: projectName + "/user/login",
-                data: {
-                    "password": password,
-                    "userName": uid
-                },
-                dataType: "text",
-                type: "post",
-                success: function (resp) {
-                    if (parseInt(resp) >= 1) {
-                        // 跳转到首页
-                        $(location).attr('href', "main/PersonIndex.html");
-                    } else {
-                        win.alert('错误', '用户名或密码错误');
-                        // alert("账户名或密码错误，请重试！")
-                    }
-                }
-
-            })
-        }
-    })
-
-
-    // 注册
-    $("#btn_register").on("click", function () {
-        var uid = $("#u_id_register").val().trim();
-        var password2 = $("#password2_register").val().trim();
-        var nickName = $("#nickname_register").val().trim();
-        var eamil = $("#email_register").val().trim();
-        $.ajax({
-            url: projectName + "/user/register",
-            data: {
-                "userName": uid,
-                "password": password2,
-                "nickName": nickName,
-                "email" :eamil
-            },
-            dataType: "text",
-            type: "post",
-            success: function (resp) {
-                var flag = parseInt(resp);
-                if (flag >= 1) {
-                    alert("注册成功，请点击“确定”进入首页");
-                    // win.alert('成功', '点击确定进入首页');
-                    // 跳转到首页
-                    $(location).attr('href', "main/PersonIndex.html");
-                } else {
-                    win.alert('失败', '注册失败，请重试');
-                    // alert("注册失败，请重试！");
-                }
-            }
-        })
-    })
-
-    // 测试
-    //很多时候我们需要使用当前项目路径，但是如果把项目路径写死，会带来很多不便，此时就需要自动获取项目路径。
-    // 我们可以根据jquery来进行自动获取项目路径，获取方法如下function getRootPath() {
-    // 1、获取当前全路径，如： http://localhost:8080/springmvc/page/frame/test.html
-    function getRootPath() {
-        var curWwwPath = window.location.href;
-        console.log("curWwwPath:" + curWwwPath) //http://localhost:8080/springmvc
-        // 获取当前相对路径： /springmvc/page/frame/test.html
-        var pathName = window.location.pathname;  //获取带"/"的项目名，如：/springmvc
-        console.log("pathName: " + pathName)
-        var local = curWwwPath.substring(0, curWwwPath.indexOf(pathName));
-        console.log("local:" + local)  // 获取主机地址,如： http://localhost:8080
-        var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
-        console.log("projectName: " + projectName)
-        return local + projectName;
-    }
-
-    getRootPath();
-
-
-    // 密码必须一致
-    var password1 = $("#password1_register");
-    var password2 = $("#password2_register");
-    var err = document.getElementById("err");
-    password2.on("blur", function () {
-        if (password2.val() !== password1.val()) {
-            err.innerText = "两次密码不一致!"
-        }
-    })
-    password2.on("focus", function () {
-        if (err.innerText !== "") {
-            password2.val("");
-        }
-        err.innerText = ""
-    })
-
-    // 密码格式要求
-    var err2 = document.getElementById("err2");
-    var regExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{8,16}$/;
-    password1.on("blur", function () {
-        var ok = regExp.test(password1.val().trim());
-        if (!ok) {
-            err2.innerText = "8-16位，大小写字母加数字至少各一个！"
-        }
-    })
-    password1.on("focus", function () {
-        if (err2.innerText !== "") {
-            err2.innerText = "";
-        }
-    })
-
-
-    // 用户名不能为空，而且不能重复
-    // 用户名在正则表达式
-    var regExp2 = /^[a-zA-Z0-9_-]{4,16}$/;
-    var uid = $("#u_id_register");
-    uid.on("blur", function () {
-        if (uid.val() === null || uid.val() === '') {
-            err.innerText = "用户名不能为空"
-        } else {
-            var ok2 = regExp2.test(uid.val());
-            if (ok2) {
-                // 如果为不为空,且满足正则表达式，就发起请求查看uid是否重复
-                $.ajax({
-                    url: projectName + "/user/uidIsRepeat",
-                    data: {"userName": uid.val().trim()},
-                    type: "post",
-                    dataType: "text",
-                    success: function (resp) {
-                        if (parseInt(resp) >= 1) {
-                            err.innerText = "用户名已存在"
-                        }
-                    }
-                })
-            } else {
-                err.innerText = "4-16位 字母，数字，下划线，减号"
-            }
-        }
-    })
-    uid.on("focus", function () {
-        if (err.innerText !== "") {
-            err.innerText = ""
-        }
-    })
-
-    // 在网页中插入邮箱输入框，当邮箱输入格式错误，给出提示。代码：
-
-    var emailExp = /^[A-Za-zd0-9]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/;
-    var emailEle = $("#email_register");
-    var y = document.getElementById("email_register");
-    emailEle.on("blur", function () {
-        var ok = emailExp.test(emailEle.val().trim());
-        if (!ok) {
-            err2.innerText = "邮箱格式不正确！"
-        }
-    })
-    emailEle.on("focus", function () {
-        if (err2.innerText !== "") {
-            err2.innerText = "";
-        }
-    })
-
-
-</script>
-
-<script type="text/javascript">
-    function _alert() {
-        win.alert('错误', '用户名或密码错误');
-    }
-
-    function _confirm() {
-        win.confirm('确认删除', '确认删除吗？', function (r) {
-            win.alertEx('结果：' + (r ? "是" : "不是"))
-        });
-    }
-
-    function _openDlg() {
-        win.open(600, 400, 'window.js例子', '/');
-    }
-</script>
 </body>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            login_user:{},
+            register_user:{}
+        },
+        methods:{
+            login(){
+                // 等接口写好
+            },
+            register(){
+                //等接口写好
+            }
+        }
+    })
+</script>
 </html>
