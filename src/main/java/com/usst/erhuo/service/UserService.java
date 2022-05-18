@@ -25,4 +25,13 @@ public interface UserService {
     //修改密码
     void changePassword(String password,Integer userId);
 
+
+    //获取用户信息
+    User getUserInfo(Integer id);
+
+
+    //修改用户信息
+    void changeUserInfo(User user);
+
+
 }

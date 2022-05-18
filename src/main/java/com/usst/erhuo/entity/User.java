@@ -19,7 +19,6 @@ public class User {
     private String address;
 
 
-
     @Override
     public String toString() {
         return "User{" +
@@ -27,6 +26,12 @@ public class User {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
+                ", headImgPath='" + headImgPath + '\'' +
+                ", exp=" + exp +
+                ", introduction='" + introduction + '\'' +
+                ", grade='" + grade + '\'' +
+                ", major='" + major + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

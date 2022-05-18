@@ -2,6 +2,7 @@ package com.usst.erhuo;
 
 import com.usst.erhuo.controller.UserController;
 import com.usst.erhuo.dao.UserDao;
+import com.usst.erhuo.entity.User;
 import com.usst.erhuo.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,15 @@ class ErhuoApplicationTests {
     
     @Test
     void testUser(){
-        userService.changePassword("1234",2);
+//        User user=new User();
+//        user.setId(1);
+//        user.setPhone("phone");
+//        user.setIntroduction("phone");
+//        user.setGrade("phone");
+//        user.setMajor("phone");
+//        user.setAddress("phone");
+
+        //userService.changeUserInfo(user);
 
     }
 }

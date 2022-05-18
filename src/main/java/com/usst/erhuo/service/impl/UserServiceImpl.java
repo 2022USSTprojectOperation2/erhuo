@@ -48,4 +48,17 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+    //获取用户信息
+    @Override
+    public User getUserInfo(Integer id) {
+        return userDao.getUserInfo(id);
+    }
+
+    @Override
+    public void changeUserInfo(User user) {
+        userDao.changeUserInfo(user);
+    }
+
+
 }

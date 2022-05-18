@@ -55,5 +55,26 @@ public class UserController {
     }
 
 
+    //获取用户信息
+    @RequestMapping("getUserInfo")
+    public User getUserInfo(HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        return userService.getUserInfo(userId);
+    }
+
+    //修改用户信息
+    @RequestMapping("changeUserInfo")
+    public void changeUserInfo(String phone,String introduction,String grade,String major,String address,HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        User user=new User();
+        user.setId(userId);
+        user.setPhone(phone);
+        user.setIntroduction(introduction);
+        user.setGrade(grade);
+        user.setMajor(major);
+        user.setAddress(address);
+        userService.changeUserInfo(user);
+    }
+
 
 }

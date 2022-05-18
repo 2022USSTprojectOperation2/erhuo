@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 @Mapper
-public interface UserDao extends BaseMapper<User> {
+public interface UserDao{
 
     //测试用
     @Select("select * from tb_user")
@@ -35,6 +35,15 @@ public interface UserDao extends BaseMapper<User> {
     @Update("update tb_user set password = #{password} where id = #{id}")
     void changePassword(String password,Integer id);
 
+
+    //获取用户信息
+    @Select("select userName,phone,headImgPath,exp,introduction,grade,major,address from tb_user where id = #{id}")
+    User getUserInfo(Integer id);
+
+
+    //用户修改信息
+    @Update("update tb_user set phone =#{phone},introduction=#{introduction},grade=#{grade},major=#{major},address=#{address} where id =#{id}")
+    void changeUserInfo(User user);
 
 
 
