@@ -51,6 +51,11 @@ public interface UserDao{
     void changeUserImg(String headImgPath,Integer id);
 
 
+    //用户涨经验
+    @Update("update tb_user set exp= #{exp} where id=#{id}")
+    void addExp(Integer exp,Integer id);
+
+
 
 
 

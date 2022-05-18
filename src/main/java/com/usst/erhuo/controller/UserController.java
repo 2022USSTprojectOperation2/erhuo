@@ -85,4 +85,14 @@ public class UserController {
     }
 
 
+    //用户涨经验
+    @RequestMapping("addExp")
+    public void addExp(Integer exp,HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        userService.addExp(exp,userId);
+
+    }
+
+
+
 }

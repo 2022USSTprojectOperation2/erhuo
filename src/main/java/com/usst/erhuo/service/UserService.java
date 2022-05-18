@@ -36,5 +36,8 @@ public interface UserService {
     //修改用户头像
     void changeUserImg(String headImgPath,Integer id);
 
+    //用户涨经验
+    void addExp(Integer exp,Integer id);
+
 
 }

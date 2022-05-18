@@ -37,6 +37,7 @@ class ErhuoApplicationTests {
 //        user.setAddress("phone");
 
         //userService.changeUserInfo(user);
+        userService.addExp(5,1);
 
     }
 }

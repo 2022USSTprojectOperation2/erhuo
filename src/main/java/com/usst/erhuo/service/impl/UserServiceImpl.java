@@ -67,5 +67,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public void addExp(Integer exp, Integer id) {
+        User user = userDao.getUserInfo(id);
+        userDao.addExp(user.getExp()+exp,id);
+    }
+
 
 }
