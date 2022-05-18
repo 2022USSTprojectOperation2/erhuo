@@ -11,6 +11,12 @@ public class User {
     private String userName;
     private String password;
     private String phone;
+    private String headImgPath;
+    private int exp;
+    private String introduction;
+    private String grade;
+    private String major;
+    private String address;
 
 
 

@@ -3,11 +3,16 @@ package com.usst.erhuo.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
+
 @Getter
 @Setter
-public class Shop {
+public class Message {
     private int id;
-    private int userId;
     private int goodsId;
-    private int num;
+    private int userId;
+    private String content;
+    private Date date;
+
 }
