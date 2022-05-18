@@ -1,6 +1,7 @@
 package com.usst.erhuo;
 
 import com.usst.erhuo.controller.UserController;
+import com.usst.erhuo.dao.GoodsDao;
 import com.usst.erhuo.dao.UserDao;
 import com.usst.erhuo.entity.User;
 import com.usst.erhuo.service.UserService;
@@ -40,4 +41,6 @@ class ErhuoApplicationTests {
         userService.addExp(5,1);
 
     }
+
+
 }
