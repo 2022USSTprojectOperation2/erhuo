@@ -15,8 +15,37 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
 
+    //测试用
     @Override
     public List<User> getAllUser() {
         return userDao.getAllUser();
     }
+
+
+    //用户登录
+    @Override
+    public Integer userLogin(String userName,String password) {
+        return userDao.userLogin(userName,password);
+    }
+
+    //验证注册时用户名是否唯一
+    @Override
+    public Integer checkUserLogin(String userName) {
+        return userDao.checkUserName(userName);
+    }
+
+    //用户注册
+    @Override
+    public void userRegister(String userName, String password, String phone) {
+        String headImgPath="img/headImg/defaultIcon.png";
+        userDao.userRegister(userName,password,phone,headImgPath);
+    }
+
+    //密码修改
+    @Override
+    public void changePassword(String password, Integer userId) {
+        userDao.changePassword(password,userId);
+    }
+
+
 }

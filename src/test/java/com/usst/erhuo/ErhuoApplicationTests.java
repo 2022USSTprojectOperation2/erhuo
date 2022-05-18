@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.servlet.http.HttpSession;
+
 @SpringBootTest
 class ErhuoApplicationTests {
 
@@ -20,9 +22,12 @@ class ErhuoApplicationTests {
     UserService userService;
     @Autowired
     UserController userController;
+
+
     
     @Test
     void testUser(){
-        //System.out.println(userController.getAllUser());
+        userService.changePassword("1234",2);
+
     }
 }
