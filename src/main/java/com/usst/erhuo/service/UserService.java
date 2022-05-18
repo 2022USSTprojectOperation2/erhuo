@@ -18,7 +18,6 @@ public interface UserService {
     //验证注册时用户名是否唯一
     Integer checkUserLogin(String userName);
 
-
     //用户注册
     void userRegister(String userName,String password,String phone);
 

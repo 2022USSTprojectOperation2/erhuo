@@ -3,6 +3,7 @@ package com.usst.erhuo.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.usst.erhuo.entity.User;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -25,8 +26,12 @@ public interface UserDao extends BaseMapper<User> {
 
 
     //用户注册
-    @Select("insert into tb_user(userName,password,phone,headImgPath) values (#{userName},#{password},#{phone},#{headImgPath})")
+    @Insert("insert into tb_user(userName,password,phone,headImgPath) values (#{userName},#{password},#{phone},#{headImgPath})")
     void userRegister(String userName,String password,String phone,String headImgPath);
+
+
+    //用户修改密码
+
 
 
 
