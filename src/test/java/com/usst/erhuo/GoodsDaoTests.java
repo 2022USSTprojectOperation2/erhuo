@@ -34,4 +34,9 @@ public class GoodsDaoTests {
         Goods goods= goodsDao.selectById(2);
         System.out.println(goods.getGoodsName());
     }
+
+    @Test
+    void testSelectByPage(){
+        goodsDao.selectByUserAndPage(1,2,2);
+    }
 }
