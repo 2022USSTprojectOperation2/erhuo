@@ -47,6 +47,13 @@ public class UserController {
         return userId;
     }
 
+    //密码修改
+    @RequestMapping("changePassword")
+    public void changePassword(String password,HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        userService.changePassword(password,userId);
+    }
+
 
 
 }

@@ -41,5 +41,11 @@ public class UserServiceImpl implements UserService {
         userDao.userRegister(userName,password,phone,headImgPath);
     }
 
+    //密码修改
+    @Override
+    public void changePassword(String password, Integer userId) {
+        userDao.changePassword(password,userId);
+    }
+
 
 }

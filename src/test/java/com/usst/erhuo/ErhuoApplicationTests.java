@@ -27,6 +27,7 @@ class ErhuoApplicationTests {
     
     @Test
     void testUser(){
+        userService.changePassword("1234",2);
 
     }
 }

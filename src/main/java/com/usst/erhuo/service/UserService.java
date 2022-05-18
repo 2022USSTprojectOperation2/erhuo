@@ -21,4 +21,8 @@ public interface UserService {
     //用户注册
     void userRegister(String userName,String password,String phone);
 
+
+    //修改密码
+    void changePassword(String password,Integer userId);
+
 }

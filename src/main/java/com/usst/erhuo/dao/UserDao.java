@@ -6,6 +6,7 @@ import com.usst.erhuo.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 @Mapper
@@ -31,6 +32,10 @@ public interface UserDao extends BaseMapper<User> {
 
 
     //用户修改密码
+    @Update("update tb_user set password = #{password} where id = #{id}")
+    void changePassword(String password,Integer id);
+
+
 
 
 
