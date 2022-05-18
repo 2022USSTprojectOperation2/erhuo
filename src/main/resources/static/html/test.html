@@ -48,8 +48,6 @@
 
 
 <script>
-    let pathName = window.location.pathname;
-    let projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
     new Vue({
         el: "#app",
         data: {
@@ -65,7 +63,7 @@
                 //param.append("name", this.name);
                 axios({
                     method: "get",
-                    url: projectName + "/user/all",
+                    url: "/user/all",
                     data: param
                 }).then((res) => {
                     this.tableData = res.data;

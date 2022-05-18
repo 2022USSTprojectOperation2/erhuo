@@ -20,8 +20,28 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
+    //测试用
     @GetMapping("/all")
     public List<User> getAllUser(){
         return userService.getAllUser();
     }
+
+
+    //用户登录
+    @RequestMapping("/login")
+    public Integer userLogin(String userName,String password){
+        return userService.userLogin(userName,password);
+    }
+
+
+    //用户注册
+    @RequestMapping("/register")
+    public Integer userRegister(String username,String password){
+
+        return null;
+    }
+
+
+
 }

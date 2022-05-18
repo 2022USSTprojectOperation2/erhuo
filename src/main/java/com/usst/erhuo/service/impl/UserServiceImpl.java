@@ -15,8 +15,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
 
+    //测试用
     @Override
     public List<User> getAllUser() {
         return userDao.getAllUser();
+    }
+
+
+    //用户登录
+    @Override
+    public Integer userLogin(String userName,String password) {
+        return userDao.userLogin(userName,password);
     }
 }
