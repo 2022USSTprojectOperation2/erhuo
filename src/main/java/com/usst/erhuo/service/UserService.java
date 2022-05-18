@@ -18,4 +18,7 @@ public interface UserService {
     Integer userLogin(String userName,String password);
 
 
+    //验证注册时用户名是否唯一
+    Integer checkUserLogin(String userName);
+
 }

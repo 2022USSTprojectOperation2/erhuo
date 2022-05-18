@@ -23,6 +23,6 @@ class ErhuoApplicationTests {
     
     @Test
     void testUser(){
-        System.out.println(userController.userLogin("test","1234"));
+        System.out.println(userController.checkUserName("tests"));
     }
 }

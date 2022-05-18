@@ -14,10 +14,19 @@ public interface UserDao extends BaseMapper<User> {
     @Select("select * from tb_user")
     List<User> getAllUser();
 
-
     //登录验证
     @Select("select count(*) from tb_user where userName=#{userName} and password=#{password}")
     Integer userLogin(String userName,String password);
+
+
+    //验证注册时用户名唯一
+    @Select("select count(*) from tb_user where userName=#{userName}")
+    Integer checkUserName(String userName);
+
+
+    //用户注册
+    //@Select("")
+
 
 
 }

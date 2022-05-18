@@ -35,6 +35,15 @@ public class UserController {
     }
 
 
+    //验证注册时用户名是否唯一
+
+    @RequestMapping("/checkUser")
+    public Integer checkUserName(String userName){
+        return userService.checkUserLogin(userName);
+    }
+
+
+
     //用户注册
     @RequestMapping("/register")
     public Integer userRegister(String username,String password){

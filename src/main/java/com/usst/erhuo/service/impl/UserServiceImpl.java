@@ -27,4 +27,10 @@ public class UserServiceImpl implements UserService {
     public Integer userLogin(String userName,String password) {
         return userDao.userLogin(userName,password);
     }
+
+    //验证注册时用户名是否唯一
+    @Override
+    public Integer checkUserLogin(String userName) {
+        return userDao.checkUserName(userName);
+    }
 }
