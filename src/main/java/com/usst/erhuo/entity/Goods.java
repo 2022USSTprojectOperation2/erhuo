@@ -10,7 +10,7 @@ public class Goods {
     private String goodsName;
     private int sellId;
     private double price;
-    private String imgPath;
+    private String imgPath;  //封面图
     private String introduction;
-    private int flag;
+    private int flag;  //约定各状态后更新此条
 }

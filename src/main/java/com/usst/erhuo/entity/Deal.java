@@ -11,5 +11,5 @@ public class Deal {
     private int goodsId;
     private int num;
     private int price;
-    private int flag;
+    private int flag; //约定后更新此条
 }
