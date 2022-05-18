@@ -30,8 +30,17 @@
                 <el-input class="mt-3"  v-model="register_user.password" placeholder="请输入密码" show-password
                           prefix-icon="el-icon-lock"></el-input>
                 <el-input class="mt-3"  v-model.number="register_user.phone" placeholder="请输入手机号"
-                          prefix-icon="el-icon-lock"></el-input>
+                          prefix-icon="el-icon-mobile-phone"></el-input>
                 <el-button class="mt-3 w-25" plain @click="register()">注册</el-button>
+            </el-tab-pane>
+            <el-tab-pane label="忘记密码" class="text-center">
+                <el-input class="mt-3"  v-model.number="reset_user.id" placeholder="请输入用户名"
+                          prefix-icon="el-icon-user"></el-input>
+                <el-input class="mt-3"  v-model.number="reset_user.phone" placeholder="请输入手机号"
+                          prefix-icon="el-icon-mobile-phone"></el-input>
+                <el-input class="mt-3"  v-model="reset_user.password" placeholder="请输入新密码" show-password
+                          prefix-icon="el-icon-lock"></el-input>
+                <el-button class="mt-3 w-25" plain @click="resetPassword()">提交</el-button>
             </el-tab-pane>
         </el-tabs>
         </div>
@@ -44,13 +53,17 @@
         el:'#app',
         data:{
             login_user:{},
-            register_user:{}
+            register_user:{},
+            reset_user:{}
         },
         methods:{
             login(){
                 // 等接口写好
             },
             register(){
+                //等接口写好
+            },
+            resetPassword(){
                 //等接口写好
             }
         }
