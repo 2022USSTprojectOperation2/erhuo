@@ -15,7 +15,7 @@ public interface UserDao extends BaseMapper<User> {
     List<User> getAllUser();
 
     //登录验证
-    @Select("select count(*) from tb_user where userName=#{userName} and password=#{password}")
+    @Select("select id from tb_user where userName=#{userName} and password=#{password}")
     Integer userLogin(String userName,String password);
 
 
@@ -25,7 +25,8 @@ public interface UserDao extends BaseMapper<User> {
 
 
     //用户注册
-    //@Select("")
+    @Select("insert into tb_user(userName,password,phone,headImgPath) values (#{userName},#{password},#{phone},#{headImgPath})")
+    void userRegister(String userName,String password,String phone,String headImgPath);
 
 
 

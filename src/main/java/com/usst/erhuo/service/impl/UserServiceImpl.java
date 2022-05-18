@@ -33,4 +33,13 @@ public class UserServiceImpl implements UserService {
     public Integer checkUserLogin(String userName) {
         return userDao.checkUserName(userName);
     }
+
+    //用户注册
+    @Override
+    public void userRegister(String userName, String password, String phone) {
+        String headImgPath="img/headImg/defaultIcon.png";
+        userDao.userRegister(userName,password,phone,headImgPath);
+    }
+
+
 }
