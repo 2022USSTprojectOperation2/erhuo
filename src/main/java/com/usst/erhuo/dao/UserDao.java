@@ -46,6 +46,11 @@ public interface UserDao{
     void changeUserInfo(User user);
 
 
+    //用户修改头像
+    @Update("update tb_user set headImgPath = #{headImgPath} where id = #{id}")
+    void changeUserImg(String headImgPath,Integer id);
+
+
 
 
 

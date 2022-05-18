@@ -77,4 +77,12 @@ public class UserController {
     }
 
 
+    //修改用户头像
+    @RequestMapping("changeUserImg")
+    public void changeUserImg(HttpSession session){
+        Integer userId = (Integer) session.getAttribute("userId");
+        //获取图片
+    }
+
+
 }

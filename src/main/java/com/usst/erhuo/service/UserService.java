@@ -33,5 +33,8 @@ public interface UserService {
     //修改用户信息
     void changeUserInfo(User user);
 
+    //修改用户头像
+    void changeUserImg(String headImgPath,Integer id);
+
 
 }

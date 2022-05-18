@@ -60,5 +60,12 @@ public class UserServiceImpl implements UserService {
         userDao.changeUserInfo(user);
     }
 
+    @Override
+    public void changeUserImg(String headImgPath, Integer id) {
+        //保存图片
+        //生成图片路径
+
+    }
+
 
 }
