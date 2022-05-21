@@ -29,32 +29,32 @@ public interface GoodsDao {
 
 
     //分页查询用户发布的商品
-    @Select("select * from tb_goods where sellId=#{sellId} limit ${(currentPage-1)*pageSize},#{pageSize}")
-    List<Goods> selectByUserAndPage(Integer sellId,Integer currentPage,Integer pageSize);
+    @Select("select * from tb_goods where sellId=#{sellId} and flag=0 order by id limit ${(currentPage-1)*pageSize},#{pageSize}")
+    List<Goods> selectByUser(Integer sellId,Integer currentPage,Integer pageSize);
 
 
     //分页查询全部商品
-    @Select("select * from tb_goods limit ${(currentPage-1)*pageSize},#{pageSize}")
+    @Select("select * from tb_goods where flag=0 order by id desc limit ${(currentPage-1)*pageSize},#{pageSize}")
     List<Goods> selectAllByPage(Integer currentPage,Integer pageSize);
 
 
     //获取商品总数（用于辅助分页）
-    @Select("select count(*) from tb_goods")
+    @Select("select count(*) from tb_goods where flag=0")
     Integer getSum();
 
 
     //获取用户发布的商品总数（用于辅助分页）
-    @Select("select count(*) from tb_goods where sellId=#{sellId}")
+    @Select("select count(*) from tb_goods where sellId=#{sellId} and flag=0")
     Integer getSumByUser(Integer sellId);
 
 
     //根据商品类别分页查询
-    @Select("select * from tb_goods where kindId=#{kindId} limit ${(currentPage-1)*pageSize},#{pageSize}")
+    @Select("select * from tb_goods where kindId=#{kindId} and flag=0 order by id limit ${(currentPage-1)*pageSize},#{pageSize}")
     List<Goods> selectByKind(Integer kingId,Integer currentPage,Integer pageSize);
 
 
     //获取当前类别的商品总数（用于辅助分页）
-    @Select("select count(*) from tb_goods where kindId=#{kindId}")
+    @Select("select count(*) from tb_goods where kindId=#{kindId} and flag=0")
     Integer getSumByKind(Integer kindId);
 
 

@@ -31,14 +31,9 @@ public class GoodsDaoTests {
     @Test
     void testSelect(){
         System.out.println("-------------------");
-        Goods goods= goodsDao.selectById(2);
-        System.out.println(goods.getGoodsName());
+        System.out.println(goodsDao.selectAllByPage(1,5));
     }
 
-    @Test
-    void testSelectByPage(){
-        goodsDao.selectByUserAndPage(1,2,2);
-    }
 
     @Test
     void testSum(){
