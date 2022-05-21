@@ -14,7 +14,7 @@ public class GoodsServiceImpl implements GoodsService {
     public Page<Goods> getAll(Integer currentPage, Integer pageSize) {
         Page<Goods> page=new Page<>();
         page.setTotalCount(goodsDao.getSum());
-        page.setRows(goodsDao.selectAllByPage(currentPage,pageSize));
+        page.setData(goodsDao.selectAllByPage(currentPage,pageSize));
         return page;
     }
 
@@ -22,7 +22,7 @@ public class GoodsServiceImpl implements GoodsService {
     public Page<Goods> getByUser(Integer currentPage, Integer pageSize, Integer userId) {
         Page<Goods> page=new Page<>();
         page.setTotalCount(goodsDao.getSumByUser(userId));
-        page.setRows(goodsDao.selectByUser(userId,currentPage,pageSize));
+        page.setData(goodsDao.selectByUser(userId,currentPage,pageSize));
         return page;
     }
 
@@ -30,7 +30,7 @@ public class GoodsServiceImpl implements GoodsService {
     public Page<Goods> getByKind(Integer currentPage, Integer pageSize, Integer kindId) {
         Page<Goods> page=new Page<>();
         page.setTotalCount(goodsDao.getSumByKind(kindId));
-        page.setRows(goodsDao.selectByKind(kindId,currentPage,pageSize));
+        page.setData(goodsDao.selectByKind(kindId,currentPage,pageSize));
         return page;
     }
 

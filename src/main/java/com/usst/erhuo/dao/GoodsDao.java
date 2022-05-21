@@ -58,4 +58,8 @@ public interface GoodsDao {
     Integer getSumByKind(Integer kindId);
 
 
+    //给商品添加详细图片
+    @Insert("insert into tb_img(goodsId,imgPath) values(#{goodsId},#{imgPath})")
+    Integer insertImage(Integer goodsId,String imgPath);
+
 }
