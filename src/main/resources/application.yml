@@ -25,5 +25,7 @@ server:
   port: 80
 
 img-path:
+  #填电脑上当前项目的实际路径
   local: D:/code/erhuo/src/main/resources/static/img/
+  #从网页上访问服务器的路径，不需要动
   server: ./img/

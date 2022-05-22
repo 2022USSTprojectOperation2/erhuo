@@ -64,12 +64,13 @@
                     <div class="col text-end">
                         <el-upload
                                 class="upload-demo"
+                                ref="cover"
                                 drag
                                 action="http://localhost/images/cover/"
                                 name="file"
                                 limit="1"
                                 list-type="picture"
-                                :on-success="onCoverSuccess">
+                                :on-change="onCoverChange">
                             <i class="el-icon-upload"></i>
                             <div class="el-upload__text fw-bold">请上传商品封面图</div>
                             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -79,13 +80,13 @@
                     <div class="col text-start">
                         <el-upload
                                 class="upload-demo"
+                                ref="details"
                                 drag
                                 action="http://localhost/images/details/"
                                 name="file"
-                                multiple
                                 limit="10"
                                 list-type="picture"
-                                :on-success="onDetailsSuccess">
+                                :on-change="onDetailsChange">
                             <i class="el-icon-upload"></i>
                             <div class="el-upload__text fw-bold">请上传商品详情图（可多张）</div>
                             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -107,14 +108,16 @@
         data:{
             goods:{},
             kindList:[],
+            detailsList:[],
+            cover:[],
             imgList:[]
         },
         methods:{
-            onCoverSuccess(res){
-                this.goods.imgPath=res
+            onCoverChange(file,fileList){
+                this.cover=fileList
             },
-            onDetailsSuccess(res){
-                this.imgList.push(res)
+            onDetailsChange(file,fileList){
+                this.detailsList=fileList
             },
             getKindList(){
                 axios.get("/goods/kindList").then((res)=>{
@@ -122,28 +125,77 @@
                 })
             },
             addGoods(){
-                if(/^[0-9]*.?[0-9]{0,2}$/.test(this.goods.price)){
+                let flag=true
+                if(!this.goods.goodsName){
+                    flag=false
+                    this.$message({
+                        showClose: true,
+                        message: '未填写商品名称',
+                        type: 'error'
+                    })
+                    return
+                }
+                if(!this.goods.price){
+                    flag=false
+                    this.$message({
+                        showClose: true,
+                        message: '未填写价格',
+                        type: 'error'
+                    })
+                    return
+                }
+                if(!/^[0-9]*.?[0-9]{0,2}$/.test(this.goods.price)){
+                    flag=false
+                    this.$message({
+                        showClose: true,
+                        message: '价格格式错误',
+                        type: 'error'
+                    })
+                    return
+                }
+                if(!this.goods.kindId) {
+                    flag = false
+                    this.$message({
+                        showClose: true,
+                        message: '未选择商品类别',
+                        type: 'error'
+                    })
+                    return
+                }
+                if(this.cover.length===0){
+                    flag=false
+                    this.$message({
+                        showClose: true,
+                        message: '未上传封面图',
+                        type: 'error'
+                    })
+                    return
+                }
+                if(flag){
+                    this.goods.imgPath=this.cover[0].response
                     axios.post("/goods",this.goods).then((res)=>{
                         if(res.data!==""){
                             this.goods.id=res.data
+                            for(let i in this.detailsList){
+                                this.imgList.push(this.detailsList[i].response)
+                            }
                             axios.post("/goods/addDetails/"+this.goods.id,this.imgList).then((res)=>{
                                 this.$message({
                                     showClose: true,
                                     message: '发布成功',
                                     type: 'success'
                                 })
+                                this.goods={}
+                                this.imgList=[]
+                                this.detailsList=[]
+                                this.cover=[]
+                                this.$refs.cover.clearFiles()
+                                this.$refs.details.clearFiles()
                             })
                         }
                     })
                 }
-                else{
-                    this.$message({
-                        showClose: true,
-                        message: '价格格式错误',
-                        type: 'error'
-                    })
-                }
-            }
+            },
         },
         created(){
             this.getKindList();
