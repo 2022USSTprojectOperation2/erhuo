@@ -1,7 +1,6 @@
 package com.usst.erhuo.dao;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.usst.erhuo.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
+
 @Mapper
 public interface UserDao{
 

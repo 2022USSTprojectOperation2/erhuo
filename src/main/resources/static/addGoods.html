@@ -10,7 +10,7 @@
     <script src="./js/element-ui/lib/index.js"></script>
     <title>发布商品</title>
 </head>
-<body>
+<body style="background-color: #f7f7f7">
 <div id="app">
     <el-container>
         <el-header>
@@ -33,59 +33,69 @@
         </el-header>
         <el-main>
             <div class="container w-50">
-                <el-input v-model="goods.goodsName" placeholder="请输入商品名称" class="mt-3"></el-input>
-                <el-input v-model="goods.price" placeholder="请输入定价" class="mt-3">
-                    <template slot="prepend">￥</template>
-                </el-input>
+                <el-input v-model="goods.goodsName" placeholder="请输入商品名称" class="mt-4"></el-input>
+                <div class="row">
+                    <div class="col">
+                        <el-input v-model="goods.price" placeholder="请输入定价" class="mt-4">
+                            <template slot="prepend">￥</template>
+                        </el-input>
+                    </div>
+                    <div class="col">
+                        <el-select v-model="goods.kindId" placeholder="请选择商品类别" class="mt-4 w-100">
+                            <el-option
+                                    v-for="item in kindList"
+                                    :key="item.id"
+                                    :label="item.kindName"
+                                    :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </div>
+                </div>
                 <el-input
                         type="textarea"
                         :rows="3"
                         placeholder="请输入商品描述"
                         v-model="goods.introduction"
-                        class="mt-3">
+                        class="mt-4">
                 </el-input>
-                <el-select v-model="value" placeholder="请选择商品类别" class="mt-3">
-                    <el-option
-                            v-for="item in options"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value">
-                    </el-option>
-                </el-select>
             </div>
-            <div class="container mt-3">
+            <div class="container mt-4">
                 <div class="row">
-                    <div class="col">
+                    <div class="col text-end">
                         <el-upload
-                                style="float: right"
                                 class="upload-demo"
                                 drag
-                                action="http://localhost/imgs/cover/"
+                                action="http://localhost/images/cover/"
                                 name="file"
-                                limit="1">
+                                limit="1"
+                                list-type="picture"
+                                :on-success="onCoverSuccess">
                             <i class="el-icon-upload"></i>
                             <div class="el-upload__text fw-bold">请上传商品封面图</div>
                             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                            <div class="el-upload__text">只能上传jpg/png文件，且不超过500kb</div>
                         </el-upload>
                     </div>
-                    <div class="col">
+                    <div class="col text-start">
                         <el-upload
-                                style="float: left"
                                 class="upload-demo"
                                 drag
-                                action="https://jsonplaceholder.typicode.com/posts/"
+                                action="http://localhost/images/details/"
+                                name="file"
                                 multiple
-                                :file-list="fileList"
-                                list-type="picture">
+                                limit="10"
+                                list-type="picture"
+                                :on-success="onDetailsSuccess">
                             <i class="el-icon-upload"></i>
                             <div class="el-upload__text fw-bold">请上传商品详情图（可多张）</div>
                             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                            <div class="el-upload__text">只能上传jpg/png文件，且不超过500kb</div>
                         </el-upload>
                     </div>
                 </div>
             </div>
             <div class="container text-center mt-5 w-50">
-                <el-button type="primary" class="w-25">发布商品</el-button>
+                <el-button type="primary" class="w-25" @click="addGoods">发布商品</el-button>
             </div>
         </el-main>
     </el-container>
@@ -95,15 +105,49 @@
     new Vue({
         el:'#app',
         data:{
-            goods:{}
+            goods:{},
+            kindList:[],
+            imgList:[]
         },
         methods:{
-
+            onCoverSuccess(res){
+                this.goods.imgPath=res
+            },
+            onDetailsSuccess(res){
+                this.imgList.push(res)
+            },
+            getKindList(){
+                axios.get("/goods/kindList").then((res)=>{
+                    this.kindList=res.data
+                })
+            },
+            addGoods(){
+                if(/^[0-9]*.?[0-9]{0,2}$/.test(this.goods.price)){
+                    axios.post("/goods",this.goods).then((res)=>{
+                        if(res.data!==""){
+                            this.goods.id=res.data
+                            axios.post("/goods/addDetails/"+this.goods.id,this.imgList).then((res)=>{
+                                this.$message({
+                                    showClose: true,
+                                    message: '发布成功',
+                                    type: 'success'
+                                })
+                            })
+                        }
+                    })
+                }
+                else{
+                    this.$message({
+                        showClose: true,
+                        message: '价格格式错误',
+                        type: 'error'
+                    })
+                }
+            }
         },
         created(){
-
+            this.getKindList();
         }
-        //检验价格的正则表达式：/^[0-9]*.?[0-9]*$/
     })
 </script>
 </html>

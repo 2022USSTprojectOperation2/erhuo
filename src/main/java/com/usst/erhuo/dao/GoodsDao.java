@@ -1,6 +1,7 @@
 package com.usst.erhuo.dao;
 
 import com.usst.erhuo.entity.Goods;
+import com.usst.erhuo.entity.Kind;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -27,6 +28,9 @@ public interface GoodsDao {
     @Select("select * from tb_goods where id=#{id}")
     Goods selectById(Integer id);
 
+    //通过封面图路径查商品id
+    @Select("select id from tb_goods where imgPath=#{imgPath}")
+    Integer selectIdByImgPath(String imgPath);
 
     //分页查询用户发布的商品
     @Select("select * from tb_goods where sellId=#{sellId} and flag=0 order by id limit ${(currentPage-1)*pageSize},#{pageSize}")
@@ -56,10 +60,5 @@ public interface GoodsDao {
     //获取当前类别的商品总数（用于辅助分页）
     @Select("select count(*) from tb_goods where kindId=#{kindId} and flag=0")
     Integer getSumByKind(Integer kindId);
-
-
-    //给商品添加详细图片
-    @Insert("insert into tb_img(goodsId,imgPath) values(#{goodsId},#{imgPath})")
-    Integer insertImage(Integer goodsId,String imgPath);
 
 }

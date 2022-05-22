@@ -24,4 +24,6 @@ server:
 #???????
   port: 80
 
-img-path: D:/code/erhuo/src/main/resources/static/img/
+img-path:
+  local: D:/code/erhuo/src/main/resources/static/img/
+  server: ./img/

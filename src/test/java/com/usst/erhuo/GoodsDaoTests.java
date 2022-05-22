@@ -11,11 +11,7 @@ public class GoodsDaoTests {
     @Autowired
     GoodsDao goodsDao;
 
-    @Test
-    void testInsertGoods(){
-        Integer result=goodsDao.insert("书",1,10.5,"12312","书",1);
-        System.out.println(result);
-    }
+
 
     @Test
     void testDeleteGoods(){

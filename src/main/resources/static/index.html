@@ -10,7 +10,7 @@
     <script src="./js/element-ui/lib/index.js"></script>
     <title>登录</title>
 </head>
-<body style="background-color: #f6fcff">
+<body style="background-color: #f7f7f7">
 <div id="app">
     <div class="container mt-5">
     <el-container>
@@ -61,6 +61,7 @@
                 axios.post("/users/login",this.login_user).then((res)=>{
                     if(res.data!==""){
                         //登录成功跳转页面
+                        location.href="/addGoods.html"
                     }
                     else{
                         //登录失败
