@@ -38,15 +38,23 @@
                         <el-col :xs="24" :sm="12" :md="8" :lg="6">
                             <el-card :body-style="{ padding: '0px' }" shadow="hover" class="mb-3" style="border-radius: 10px">
                                 <el-image :src="goods.imgPath" fit="contain"></el-image>
-                                <div style="padding: 14px;">
+                                <div style="padding: 16px;">
                                     <div class="fs-5">{{goods.goodsName}}</div>
-                                    <div class="fs-4 fw-bold">￥{{goods.price}}</div>
+                                    <div class="fs-4 fw-bold text-secondary">￥{{goods.price}}</div>
                                 </div>
                             </el-card>
                         </el-col>
                     </div>
                 </el-row>
             </div>
+            <el-pagination
+                    class="text-center"
+                    background
+                    layout="prev, pager, next"
+                    :total="total"
+                    :page-size="pageSize"
+                    @current-change="changePage">
+            </el-pagination>
         </el-main>
     </el-container>
 </div>
@@ -55,12 +63,22 @@
     new Vue({
         el: '#app',
         data:{
-            goodsList:[]
+            goodsList:[],
+            total:0,
+            pageSize:12
         },
-        methods: {},
+        methods: {
+            changePage(currentPage){
+                axios.get("/goods/all/"+this.pageSize+"/"+currentPage).then((res) => {
+                    this.goodsList = res.data.data
+                    this.total=res.data.totalCount
+                })
+            }
+        },
         created() {
-            axios.get("/goods/all/36/1").then((res) => {
+            axios.get("/goods/all/"+this.pageSize+"/1").then((res) => {
                 this.goodsList = res.data.data
+                this.total=res.data.totalCount
             })
         }
     })
