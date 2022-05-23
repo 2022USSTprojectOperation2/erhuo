@@ -2,6 +2,7 @@ package com.usst.erhuo.controller;
 
 import com.usst.erhuo.entity.Goods;
 import com.usst.erhuo.entity.Kind;
+import com.usst.erhuo.entity.Page;
 import com.usst.erhuo.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +31,15 @@ public class GoodsController {
         return goodsService.add(goods);
     }
 
+    //为商品添加详情图，需要传商品id和图片路径的列表
     @PostMapping("/addDetails/{goodsId}")
     public Boolean addDetails(@RequestBody List<String> imgPathList,@PathVariable Integer goodsId){
         return goodsService.addDetails(imgPathList,goodsId);
+    }
+
+    //获取商品列表
+    @GetMapping("/all/{pageSize}/{currentPage}")
+    public Page<Goods> getGoods(@PathVariable Integer pageSize,@PathVariable Integer currentPage){
+        return goodsService.getAll(currentPage,pageSize);
     }
 }

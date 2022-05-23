@@ -10,11 +10,11 @@
     <script src="./js/element-ui/lib/index.js"></script>
     <title>浏览商品</title>
 </head>
-<body>
+<body style="background-color: #f7f7f7">
 <div id="app">
     <el-container>
         <el-header>
-            <el-menu :default-active="activeIndex" class="el-menu-demo"  mode="horizontal" @select="handleSelect">
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                 <el-menu-item style="float: right" index="1">处理中心</el-menu-item>
                 <el-submenu style="float: right" index="2">
                     <template slot="title">我的工作台</template>
@@ -31,21 +31,37 @@
                 <el-menu-item style="float: right" index="3">消息中心</el-menu-item>
             </el-menu>
         </el-header>
-        <el-main>Main</el-main>
+        <el-main>
+            <div class="container">
+                <el-row :gutter="16">
+                    <div v-for="goods in goodsList">
+                        <el-col :xs="24" :sm="12" :md="8" :lg="6">
+                            <el-card :body-style="{ padding: '0px' }" shadow="hover" class="mb-3">
+                                <el-image :src="goods.imgPath" fit="contain"></el-image>
+                                <div style="padding: 14px;">
+                                    <div class="fs-5">{{goods.goodsName}}</div>
+                                    <div class="fs-4 fw-bold">￥{{goods.price}}</div>
+                                </div>
+                            </el-card>
+                        </el-col>
+                    </div>
+                </el-row>
+            </div>
+        </el-main>
     </el-container>
 </div>
 </body>
 <script>
     new Vue({
-        el:'#app',
+        el: '#app',
         data:{
-
+            goodsList:[]
         },
-        methods:{
-
-        },
-        created(){
-
+        methods: {},
+        created() {
+            axios.get("/goods/all/36/1").then((res) => {
+                this.goodsList = res.data.data
+            })
         }
     })
 </script>
