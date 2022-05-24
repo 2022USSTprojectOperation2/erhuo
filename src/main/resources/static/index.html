@@ -58,6 +58,22 @@
         },
         methods:{
             login(){
+                if(!this.login_user.userName){
+                    this.$message({
+                        showClose: true,
+                        message: '未填写用户名',
+                        type: 'error'
+                    })
+                    return
+                }
+                if(!this.login_user.password){
+                    this.$message({
+                        showClose: true,
+                        message: '未填写密码',
+                        type: 'error'
+                    })
+                    return
+                }
                 axios.post("/users/login",this.login_user).then((res)=>{
                     if(res.data!==""){
                         //登录成功跳转页面
@@ -74,6 +90,38 @@
                 })
             },
             register(){
+                if(!this.register_user.userName){
+                    this.$message({
+                        showClose: true,
+                        message: '未填写用户名',
+                        type: 'error'
+                    })
+                    return
+                }
+                if(!this.register_user.password){
+                    this.$message({
+                        showClose: true,
+                        message: '未填写密码',
+                        type: 'error'
+                    })
+                    return
+                }
+                if(!this.register_user.phone){
+                    this.$message({
+                        showClose: true,
+                        message: '未填写手机号',
+                        type: 'error'
+                    })
+                    return
+                }
+                if(!/^[0-9]{11}$/.test(this.register_user.phone)) {
+                    this.$message({
+                        showClose: true,
+                        message: '请输入正确的手机号',
+                        type: 'error'
+                    })
+                    return
+                }
                 axios.get("users/checkUser/"+this.register_user.userName).then((res)=>{
                     if(res.data===1){
                         //用户名重复
@@ -81,22 +129,16 @@
                             showClose: true,
                             message: '用户名重复',
                             type: 'warning'
-                        });
+                        })
                     }
                     if(res.data===0){
-                        // 验证手机号
-                        if(/^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/.test(this.register_user.phone)){
-                            axios.post("users/register",this.register_user).then((res)=>{
-                                //注册成功跳转页面
-                            })
-                        }
-                        else{
+                        axios.post("users/register",this.register_user).then((res)=>{
                             this.$message({
                                 showClose: true,
-                                message: '请输入正确的手机号',
-                                type: 'error'
-                            });
-                        }
+                                message: '注册成功',
+                                type: 'success'
+                            })
+                        })
                     }
                 })
             }

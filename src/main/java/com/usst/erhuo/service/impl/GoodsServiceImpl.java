@@ -91,4 +91,10 @@ public class GoodsServiceImpl implements GoodsService {
     public List<String> getDetails(Integer id) {
         return imgDao.selectImgPathByGoodsId(id);
     }
+
+    @Override
+    public Boolean updateDetails(List<String> imgPathList, Integer goodsId) {
+        imgDao.deleteImageByGoodsId(goodsId);
+        return addDetails(imgPathList,goodsId);
+    }
 }

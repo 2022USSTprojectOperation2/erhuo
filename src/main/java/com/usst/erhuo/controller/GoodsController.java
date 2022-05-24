@@ -32,7 +32,7 @@ public class GoodsController {
     }
 
     //为商品添加详情图，需要传商品id和图片路径的列表
-    @PostMapping("/addDetails/{goodsId}")
+    @PostMapping("/details/{goodsId}")
     public Boolean addDetails(@RequestBody List<String> imgPathList,@PathVariable Integer goodsId){
         return goodsService.addDetails(imgPathList,goodsId);
     }
@@ -43,13 +43,31 @@ public class GoodsController {
         return goodsService.getAll(currentPage,pageSize);
     }
 
+    //根据id获取商品
     @GetMapping("/{id}")
     public Goods getGoods(@PathVariable Integer id){
         return goodsService.getById(id);
     }
 
+    //根据id获取商品详情图的路径列表
     @GetMapping("/details/{id}")
     public List<String> getDetails(@PathVariable Integer id){
         return goodsService.getDetails(id);
+    }
+
+    //修改商品信息
+    @PutMapping()
+    public Boolean updateGoods(@RequestBody Goods goods,HttpSession session){
+        Integer userId= (Integer) session.getAttribute("userId");
+        if(goods.getSellId()!=userId){
+            return false;
+        }
+        return goodsService.update(goods);
+    }
+
+    //修改商品详情图
+    @PutMapping("/details/{goodsId}")
+    public Boolean updateDetails(@RequestBody List<String> imgPathList,@PathVariable Integer goodsId){
+        return goodsService.updateDetails(imgPathList,goodsId);
     }
 }
