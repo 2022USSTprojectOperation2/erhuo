@@ -47,4 +47,9 @@ public class GoodsController {
     public Goods getGoods(@PathVariable Integer id){
         return goodsService.getById(id);
     }
+
+    @GetMapping("/details/{id}")
+    public List<String> getDetails(@PathVariable Integer id){
+        return goodsService.getDetails(id);
+    }
 }

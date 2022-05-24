@@ -16,5 +16,6 @@ public interface GoodsService {
     Boolean delete(Goods goods);
     Boolean buy(Goods goods,Integer userId);
     Boolean addDetails(List<String> imgPathList,Integer goodsId);
+    List<String> getDetails(Integer id);
     List<Kind> getKindList();
 }

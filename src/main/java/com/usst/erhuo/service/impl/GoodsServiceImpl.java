@@ -86,4 +86,9 @@ public class GoodsServiceImpl implements GoodsService {
     public Goods getById(Integer id) {
         return goodsDao.selectById(id);
     }
+
+    @Override
+    public List<String> getDetails(Integer id) {
+        return imgDao.selectImgPathByGoodsId(id);
+    }
 }
