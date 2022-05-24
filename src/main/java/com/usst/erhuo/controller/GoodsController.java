@@ -39,7 +39,12 @@ public class GoodsController {
 
     //获取商品列表
     @GetMapping("/all/{pageSize}/{currentPage}")
-    public Page<Goods> getGoods(@PathVariable Integer pageSize,@PathVariable Integer currentPage){
+    public Page<Goods> getGoodsList(@PathVariable Integer pageSize,@PathVariable Integer currentPage){
         return goodsService.getAll(currentPage,pageSize);
+    }
+
+    @GetMapping("/{id}")
+    public Goods getGoods(@PathVariable Integer id){
+        return goodsService.getById(id);
     }
 }

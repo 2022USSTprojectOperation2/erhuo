@@ -81,4 +81,9 @@ public class GoodsServiceImpl implements GoodsService {
         }
         return true;
     }
+
+    @Override
+    public Goods getById(Integer id) {
+        return goodsDao.selectById(id);
+    }
 }

@@ -10,6 +10,7 @@ public interface GoodsService {
     Page<Goods> getAll(Integer currentPage,Integer pageSize);
     Page<Goods> getByUser(Integer currentPage,Integer pageSize,Integer userId);
     Page<Goods> getByKind(Integer currentPage,Integer pageSize,Integer kindId);
+    Goods getById(Integer id);
     Integer add(Goods goods);
     Boolean update(Goods goods);
     Boolean delete(Goods goods);
