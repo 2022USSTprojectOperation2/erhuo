@@ -45,6 +45,28 @@
             </el-menu>
         </el-header>
         <el-main>
+            <div class="container my-5">
+                <el-row :gutter="12">
+                    <el-col :span="16">
+                        <el-input v-model="searchKey" placeholder="请输入内容">
+                            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                        </el-input>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-select v-model="searchKindId" placeholder="选择商品类别" class="w-100">
+                            <el-option
+                                    v-for="item in kindList"
+                                    :key="item.id"
+                                    :label="item.kindName"
+                                    :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-col>
+                    <el-col :span="4">
+                        <el-button type="primary" icon="el-icon-search" @click="getGoods" class="w-100">搜索</el-button>
+                    </el-col>
+                </el-row>
+            </div>
             <div class="container">
                 <el-row :gutter="20">
                     <div v-for="goods in goodsList">
@@ -86,21 +108,56 @@
         data: {
             goodsList: [],
             total: 0,
-            pageSize: 12
+            pageSize: 12,
+            kindList:[],
+            searchKey:undefined,
+            searchKindId:undefined,
+            currentPage:1
         },
         methods: {
             changePage(currentPage) {
-                axios.get("/goods/all/" + this.pageSize + "/" + currentPage).then((res) => {
-                    this.goodsList = res.data.data
-                    this.total = res.data.totalCount
-                })
+                this.currentPage=currentPage
+                this.getGoods()
+            },
+            getGoods(){
+                if(this.searchKey===undefined||this.searchKey===""){
+                    if(this.searchKindId===undefined||this.searchKindId===0){
+                        axios.get("/goods/all/" + this.pageSize + "/"+this.currentPage).then((res) => {
+                            this.goodsList = res.data.data
+                            this.total = res.data.totalCount
+                        })
+                    }
+                    else{
+                        axios.get("/goods/kind/"+this.searchKindId+"/"+this.pageSize + "/"+this.currentPage).then((res)=>{
+                            this.goodsList = res.data.data
+                            this.total = res.data.totalCount
+                        })
+                    }
+                }
+                else{
+                    if(this.searchKindId===undefined||this.searchKindId===0){
+                        axios.get("/goods/keyWord/" +this.searchKey+"/"+ this.pageSize + "/"+this.currentPage).then((res) => {
+                            this.goodsList = res.data.data
+                            this.total = res.data.totalCount
+                        })
+                    }
+                    else{
+                        axios.get("/goods/kindAndKeyWord/"+this.searchKindId+"/"+this.searchKey+"/"+this.pageSize + "/"+this.currentPage).then((res)=>{
+                            this.goodsList = res.data.data
+                            this.total = res.data.totalCount
+                        })
+                    }
+                }
             }
         },
         created() {
-            axios.get("/goods/all/" + this.pageSize + "/1").then((res) => {
-                this.goodsList = res.data.data
-                this.total = res.data.totalCount
+            this.kindList=[{id:0,kindName:"全部"}]
+            axios.get("/goods/kindList").then((res)=>{
+                for(let i in res.data){
+                    this.kindList.push(res.data[i])
+                }
             })
+           this.getGoods()
         }
     })
 </script>

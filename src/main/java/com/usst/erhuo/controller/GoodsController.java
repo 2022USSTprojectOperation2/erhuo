@@ -70,4 +70,22 @@ public class GoodsController {
     public Boolean updateDetails(@RequestBody List<String> imgPathList,@PathVariable Integer goodsId){
         return goodsService.updateDetails(imgPathList,goodsId);
     }
+
+    //根据类别获取商品
+    @GetMapping("/kind/{id}/{pageSize}/{currentPage}")
+    public Page<Goods> getByKind(@PathVariable Integer id,@PathVariable Integer pageSize,@PathVariable Integer currentPage){
+        return goodsService.getByKind(currentPage,pageSize,id);
+    }
+
+    //根据关键字获取商品
+    @GetMapping("/keyWord/{keyWord}/{pageSize}/{currentPage}")
+    public Page<Goods> getByKeyWord(@PathVariable String keyWord,@PathVariable Integer pageSize,@PathVariable Integer currentPage){
+        return goodsService.getByKeyWord(currentPage,pageSize,keyWord);
+    }
+
+    //根据类别和关键字获取商品
+    @GetMapping("/kindAndKeyWord/{id}/{keyWord}/{pageSize}/{currentPage}")
+    public Page<Goods> getByKindAndKeyWord(@PathVariable Integer id,@PathVariable String keyWord,@PathVariable Integer pageSize,@PathVariable Integer currentPage){
+        return goodsService.getByKindAndKeyWord(currentPage,pageSize,id,keyWord);
+    }
 }

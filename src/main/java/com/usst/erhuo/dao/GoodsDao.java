@@ -33,7 +33,7 @@ public interface GoodsDao {
     Integer selectIdByImgPath(String imgPath);
 
     //分页查询用户发布的商品
-    @Select("select * from tb_goods where sellId=#{sellId} and flag=0 order by id limit ${(currentPage-1)*pageSize},#{pageSize}")
+    @Select("select * from tb_goods where sellId=#{sellId} and flag=0 order by id desc limit ${(currentPage-1)*pageSize},#{pageSize}")
     List<Goods> selectByUser(Integer sellId,Integer currentPage,Integer pageSize);
 
 
@@ -53,12 +53,27 @@ public interface GoodsDao {
 
 
     //根据商品类别分页查询
-    @Select("select * from tb_goods where kindId=#{kindId} and flag=0 order by id limit ${(currentPage-1)*pageSize},#{pageSize}")
-    List<Goods> selectByKind(Integer kingId,Integer currentPage,Integer pageSize);
+    @Select("select * from tb_goods where kindId=#{kindId} and flag=0 order by id desc limit ${(currentPage-1)*pageSize},#{pageSize}")
+    List<Goods> selectByKind(Integer kindId,Integer currentPage,Integer pageSize);
 
 
     //获取当前类别的商品总数（用于辅助分页）
     @Select("select count(*) from tb_goods where kindId=#{kindId} and flag=0")
     Integer getSumByKind(Integer kindId);
 
+    //根据关键字搜索
+    @Select("select * from tb_goods where goodsName like CONCAT('%',#{keyWord},'%') or introduction like CONCAT('%',#{keyWord},'%') order by id desc limit ${(currentPage-1)*pageSize},#{pageSize}")
+    List<Goods> selectByKeyWord(String keyWord,Integer currentPage,Integer pageSize);
+
+    //根据关键字获取个数
+    @Select("select count(*) from tb_goods where goodsName like CONCAT('%',#{keyWord},'%') or introduction like CONCAT('%',#{keyWord},'%')")
+    Integer getSumByKeyWord(String keyWord);
+
+    //根据关键字和类别搜索
+    @Select("select * from tb_goods where kindId=#{kindId} and (goodsName like CONCAT('%',#{keyWord},'%') or introduction like CONCAT('%',#{keyWord},'%') ) order by id desc limit ${(currentPage-1)*pageSize},#{pageSize}")
+    List<Goods> selectByKindAndKeyWord(Integer kindId,String keyWord,Integer currentPage,Integer pageSize);
+
+    //获取根据关键字和类别搜索的个数
+    @Select("select count(*) from tb_goods where kindId=#{kindId} and (goodsName like CONCAT('%',#{keyWord},'%') or introduction like CONCAT('%',#{keyWord},'%') )")
+    Integer getSumByKindAndKeyWord(Integer kindId,String keyWord);
 }

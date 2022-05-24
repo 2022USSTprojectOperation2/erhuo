@@ -26,7 +26,9 @@ server:
 
 #存图片的路径
 img-path:
-  #填电脑上当前项目的实际路径(要target对应的文件夹)
-  local: D:/code/erhuo/target/classes/static/img/
+  #填电脑上当前项目的文件夹
+  local: D:/code/erhuo/src/main/resources/static/img/
+  #填电脑上当前项目的target对应的文件夹)
+  target: D:/code/erhuo/target/classes/static/img/
   #从网页上访问服务器的路径，不需要动
   server: ./img/

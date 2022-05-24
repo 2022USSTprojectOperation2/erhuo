@@ -10,6 +10,8 @@ public interface GoodsService {
     Page<Goods> getAll(Integer currentPage,Integer pageSize);
     Page<Goods> getByUser(Integer currentPage,Integer pageSize,Integer userId);
     Page<Goods> getByKind(Integer currentPage,Integer pageSize,Integer kindId);
+    Page<Goods> getByKeyWord(Integer currentPage,Integer pageSize,String keyWord);
+    Page<Goods> getByKindAndKeyWord(Integer currentPage,Integer pageSize,Integer kindId,String keyWord);
     Goods getById(Integer id);
     Integer add(Goods goods);
     Boolean update(Goods goods);

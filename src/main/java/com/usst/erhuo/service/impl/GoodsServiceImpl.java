@@ -97,4 +97,20 @@ public class GoodsServiceImpl implements GoodsService {
         imgDao.deleteImageByGoodsId(goodsId);
         return addDetails(imgPathList,goodsId);
     }
+
+    @Override
+    public Page<Goods> getByKeyWord(Integer currentPage, Integer pageSize, String keyWord) {
+        Page<Goods> page=new Page<>();
+        page.setTotalCount(goodsDao.getSumByKeyWord(keyWord));
+        page.setData(goodsDao.selectByKeyWord(keyWord,currentPage,pageSize));
+        return page;
+    }
+
+    @Override
+    public Page<Goods> getByKindAndKeyWord(Integer currentPage, Integer pageSize, Integer kindId, String keyWord) {
+        Page<Goods> page=new Page<>();
+        page.setTotalCount(goodsDao.getSumByKindAndKeyWord(kindId,keyWord));
+        page.setData(goodsDao.selectByKindAndKeyWord(kindId,keyWord,currentPage,pageSize));
+        return page;
+    }
 }

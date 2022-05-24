@@ -4,6 +4,7 @@ import com.usst.erhuo.service.ImageService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,9 @@ import java.util.UUID;
 
 @Service
 public class ImageServiceImpl implements ImageService {
+
+    @Value("${img-path.target")
+    private String targetPath;
 
     @Value("${img-path.local}")
     private String localPath;
@@ -22,16 +26,26 @@ public class ImageServiceImpl implements ImageService {
     public String addCover(MultipartFile file, Integer userId) {
         String fileName=getFileName(file.getOriginalFilename());
         String visibleUri=serverPath+"cover/"+userId+"/"+fileName;
-        String saveUri=localPath+"cover/"+userId+"/"+fileName;
-        File saveFile=new File(saveUri);
-        if(!saveFile.exists()){
-            saveFile.mkdirs();
+        String localUri=localPath+"cover/"+userId+"/"+fileName;
+        File localFile=new File(localUri);
+        if(!localFile.exists()){
+            localFile.mkdirs();
         }
         try {
-            file.transferTo(saveFile);
+            file.transferTo(localFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        String targetUri=targetPath+"cover/"+userId+"/"+fileName;
+//        File targetFile=new File(targetUri);
+//        if(!targetFile.exists()){
+//           targetFile.mkdirs();
+//        }
+//        try {
+//            file.transferTo(targetFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         return visibleUri;
     }
 
@@ -39,16 +53,26 @@ public class ImageServiceImpl implements ImageService {
     public String addDetails(MultipartFile file, Integer userId) {
         String fileName=getFileName(file.getOriginalFilename());
         String visibleUri=serverPath+"details/"+userId+"/"+fileName;
-        String saveUri=localPath+"details/"+userId+"/"+fileName;
-        File saveFile=new File(saveUri);
-        if(!saveFile.exists()){
-            saveFile.mkdirs();
+        String localUri=localPath+"details/"+userId+"/"+fileName;
+        File localFile=new File(localUri);
+        if(!localFile.exists()){
+            localFile.mkdirs();
         }
         try {
-            file.transferTo(saveFile);
+            file.transferTo(localFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
+//        String targetUri=targetPath+"details/"+userId+"/"+fileName;
+//        File targetFile=new File(targetUri);
+//        if(!targetFile.exists()){
+//            targetFile.mkdirs();
+//        }
+//        try {
+//            file.transferTo(targetFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         return visibleUri;
     }
 

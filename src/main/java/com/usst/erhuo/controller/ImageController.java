@@ -21,12 +21,14 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
+    //添加封面
     @RequestMapping("/cover")
     public String addCover(@RequestPart("file") MultipartFile file,HttpSession session){
         Integer userId=(Integer) session.getAttribute("userId");
         return imageService.addCover(file,userId);
     }
 
+    //添加详情图
     @RequestMapping("/details")
     public String addDetails(@RequestPart("file") MultipartFile file,HttpSession session){
         Integer userId=(Integer) session.getAttribute("userId");
