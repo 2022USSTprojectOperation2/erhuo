@@ -36,7 +36,7 @@
                 <el-card class="box-card">
                     <div slot="header" class="clearfix">
                         <span>{{user.userName}}</span>
-                        <el-button style="float: right; padding: 3px 0" type="text" @click="changeUserInfo">修改</el-button>
+                        <el-button style="float: right; padding: 3px 0" type="text" v-if="flag" @click="changeUserInfo">修改</el-button>
                     </div>
                     <div class="text item">
                         电话：{{user.phone}}
@@ -68,7 +68,8 @@
         data:{
             user:{
                 userName:"用户数据未载入"
-            }
+            },
+            flag:false
         },
         methods:{
             getUserInfo(){
@@ -86,10 +87,24 @@
             },
             changeUserInfo(){
                 location.href="/changeUserInfo.html"
+            },
+            getUserInfoById(id){
+                axios.get("/users/getUserInfoById/"+id).then((res)=>{
+                    this.user=res.data
+                })
             }
         },
         created(){
-            this.getUserInfo();
+            let search=window.location.search
+            search=search.substr(1)
+            let params=search.split("=")
+            let id=params[1]
+            if(id){
+                this.getUserInfoById(id)
+            }else{
+                this.flag=true
+                this.getUserInfo();
+            }
         }
     })
 </script>

@@ -47,6 +47,12 @@
                         </div>
                         <div class="fs-4 mt-4">商品描述</div>
                         <div class="fs-4 lead">{{goods.introduction}}</div>
+                        <div class="fs-4 mt-4">
+                            <span>卖家&nbsp;</span>
+                            <a :href="'/userInfo.html?id='+goods.sellId" style="text-decoration: none">
+                            <span class="text-primary">@{{user.userName}}</span>
+                            </a>
+                        </div>
                     </el-col>
                 </el-row>
             </div>
@@ -68,8 +74,9 @@
     new Vue({
         el: '#app',
         data: {
-            goods:{},
-            detailsList:[]
+            goods:{sellId:undefined},
+            detailsList:[],
+            user:{}
         },
         methods: {
 
@@ -81,11 +88,14 @@
             let id=params[1]
             axios.get("/goods/"+id).then((res)=>{
                 this.goods=res.data
+                axios.get("/users/getUserInfoById/"+this.goods.sellId).then((res)=>{
+                    this.user=res.data
+                })
             })
             axios.get("/goods/details/"+id).then((res)=>{
                 this.detailsList=res.data
             })
-            axios.put("goods/likeLevel/"+id)
+            axios.put("/goods/likeLevel/"+id)
         },
         mounted(){
 

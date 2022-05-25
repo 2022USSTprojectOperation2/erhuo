@@ -84,4 +84,11 @@ public class UserController {
 
     }
 
+    //根据id获取用户信息
+    @GetMapping("/getUserInfoById/{id}")
+    public User getUserInfoById(@PathVariable Integer id){
+        User user = userService.getUserInfo(id);
+        user.setPassword("");
+        return user;
+    }
 }
