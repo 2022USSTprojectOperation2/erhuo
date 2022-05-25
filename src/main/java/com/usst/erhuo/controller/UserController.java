@@ -64,7 +64,6 @@ public class UserController {
     public void changeUserInfo(@RequestBody User user,HttpSession session){
         Integer userId = (Integer) session.getAttribute("userId");
         user.setId(userId);
-        System.out.println("sssssssssssssssssssssssssssss");
         userService.changeUserInfo(user);
     }
 
