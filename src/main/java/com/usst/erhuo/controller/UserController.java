@@ -61,15 +61,10 @@ public class UserController {
 
     //修改用户信息
     @RequestMapping("changeUserInfo")
-    public void changeUserInfo(String phone,String introduction,String grade,String major,String address,HttpSession session){
+    public void changeUserInfo(@RequestBody User user,HttpSession session){
         Integer userId = (Integer) session.getAttribute("userId");
-        User user=new User();
         user.setId(userId);
-        user.setPhone(phone);
-        user.setIntroduction(introduction);
-        user.setGrade(grade);
-        user.setMajor(major);
-        user.setAddress(address);
+        System.out.println("sssssssssssssssssssssssssssss");
         userService.changeUserInfo(user);
     }
 

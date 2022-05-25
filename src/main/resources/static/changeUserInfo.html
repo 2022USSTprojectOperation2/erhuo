@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap5/css/bootstrap.min.css">
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios-0.18.0.js"></script>
+    <link rel="stylesheet" href="./js/element-ui/lib/theme-chalk/index.css">
+    <script src="./js/element-ui/lib/index.js"></script>
+    <title>发布商品</title>
+</head>
+<body style="background-color: #f7f7f7">
+<div id="app">
+    <el-container>
+        <el-header>
+            <el-menu :default-active="activeIndex" class="el-menu-demo"  mode="horizontal" @select="handleSelect">
+                <el-menu-item style="float: right" index="1">处理中心</el-menu-item>
+                <el-submenu style="float: right" index="2">
+                    <template slot="title">我的工作台</template>
+                    <el-menu-item index="2-1">选项1</el-menu-item>
+                    <el-menu-item index="2-2">选项2</el-menu-item>
+                    <el-menu-item index="2-3">选项3</el-menu-item>
+                    <el-submenu index="2-4">
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="2-4-1">选项1</el-menu-item>
+                        <el-menu-item index="2-4-2">选项2</el-menu-item>
+                        <el-menu-item index="2-4-3">选项3</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+                <el-menu-item style="float: right" index="3">消息中心</el-menu-item>
+            </el-menu>
+        </el-header>
+        <el-main>
+            <div class="container w-50">
+                <el-form>
+                    <el-form-item label="用户名">
+                        <el-input disabled v-model="user.userName" placeholder="请输入用户名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="电话">
+                        <el-input v-model="user.phone" placeholder="请输入电话"></el-input>
+                    </el-form-item>
+                    <el-form-item label="年级">
+                        <el-input v-model="user.grade" placeholder="请输入年级" ></el-input>
+                    </el-form-item>
+                    <el-form-item label="专业">
+                        <el-input v-model="user.major" placeholder="请输入专业" ></el-input>
+                    </el-form-item>
+                    <el-form-item label="地址">
+                        <el-input v-model="user.address" placeholder="请输入地址" ></el-input>
+                    </el-form-item>
+
+                    <br><br>
+                    个人介绍<br>
+                    <el-input
+                            type="textarea"
+                            :rows="5"
+                            placeholder="请输入个人介绍"
+                            v-model="user.introduction"
+                            class="mt-4">
+                    </el-input>
+                </el-form>
+
+            </div>
+            <div class="container text-center mt-5 w-50">
+                <el-button type="primary" class="w-25" @click="changeUserInfo">修改</el-button>
+            </div>
+        </el-main>
+    </el-container>
+</div>
+</body>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            user:{
+                userName:"用户数据未载入",
+                grade:"",
+                introduction:"",
+                major:"",
+                phone:""
+            }
+        },
+        methods:{
+            getUserInfo(){
+                axios.get("users/getUserInfo").then((res)=>{
+                        this.user=res.data
+                        if(!this.user.userName){
+                            this.$message({
+                                showClose: true,
+                                message: '用户数据载入失败',
+                                type: 'error'
+                            })
+                        }
+                    }
+                )
+            },
+            changeUserInfo() {
+                let flag=true
+                if(!this.user.userName){
+                    flag=false
+                    this.$message({
+                        showClose: true,
+                        message: '未填写用户名称',
+                        type: 'error'
+                    })
+                    return
+                }
+
+                axios.post("/users/changeUserInfo",this.user).then((res)=>{
+                    location.href="/userInfo.html"
+                })
+                location.href="/userInfo.html"
+
+            }
+        },
+        created(){
+            this.getUserInfo()
+        }
+    })
+</script>
+</html>

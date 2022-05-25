@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap5/css/bootstrap.min.css">
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios-0.18.0.js"></script>
+    <link rel="stylesheet" href="./js/element-ui/lib/theme-chalk/index.css">
+    <script src="./js/element-ui/lib/index.js"></script>
+    <title>发布商品</title>
+</head>
+<body style="background-color: #f7f7f7">
+<div id="app">
+    <el-container>
+        <el-header>
+            <el-menu :default-active="activeIndex" class="el-menu-demo"  mode="horizontal" @select="handleSelect">
+                <el-menu-item style="float: right" index="1">处理中心</el-menu-item>
+                <el-submenu style="float: right" index="2">
+                    <template slot="title">我的工作台</template>
+                    <el-menu-item index="2-1">选项1</el-menu-item>
+                    <el-menu-item index="2-2">选项2</el-menu-item>
+                    <el-menu-item index="2-3">选项3</el-menu-item>
+                    <el-submenu index="2-4">
+                        <template slot="title">选项4</template>
+                        <el-menu-item index="2-4-1">选项1</el-menu-item>
+                        <el-menu-item index="2-4-2">选项2</el-menu-item>
+                        <el-menu-item index="2-4-3">选项3</el-menu-item>
+                    </el-submenu>
+                </el-submenu>
+                <el-menu-item style="float: right" index="3">消息中心</el-menu-item>
+            </el-menu>
+        </el-header>
+        <el-main>
+            <div class="container w-50">
+                <el-card class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>{{user.userName}}</span>
+                        <el-button style="float: right; padding: 3px 0" type="text" @click="changeUserInfo">修改</el-button>
+                    </div>
+                    <div class="text item">
+                        电话：{{user.phone}}
+                    </div>
+                    <div class="text item">
+                        年级：{{user.grade}}
+                    </div>
+                    <div class="text item">
+                        专业：{{user.major}}
+                    </div>
+                    <div class="text item">
+                        地址：{{user.address}}
+                    </div>
+                    <br>
+                    <div class="text item">
+                        个人介绍：<br>&nbsp;&nbsp;{{user.introduction}}
+                    </div>
+                </el-card>
+            </div>
+
+
+        </el-main>
+    </el-container>
+</div>
+</body>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            user:{
+                userName:"用户数据未载入"
+            }
+        },
+        methods:{
+            getUserInfo(){
+                axios.get("users/getUserInfo").then((res)=>{
+                        this.user=res.data
+                        if(!this.user.userName){
+                            this.$message({
+                                showClose: true,
+                                message: '用户数据载入失败',
+                                type: 'error'
+                            })
+                        }
+                    }
+                )
+            },
+            changeUserInfo(){
+                location.href="/changeUserInfo.html"
+            }
+        },
+        created(){
+            this.getUserInfo();
+        }
+    })
+</script>
+</html>

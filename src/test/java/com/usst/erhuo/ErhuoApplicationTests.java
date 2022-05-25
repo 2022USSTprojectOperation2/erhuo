@@ -42,5 +42,13 @@ class ErhuoApplicationTests {
 
     }
 
+    @Test
+    void changeUserInfo(){
+        User userInfo = userDao.getUserInfo(1);
+        userInfo.setId(1);
+        userInfo.setMajor("jsj");
+        userService.changeUserInfo(userInfo);
+    }
+
 
 }
