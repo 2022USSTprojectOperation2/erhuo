@@ -88,4 +88,36 @@ public class GoodsController {
     public Page<Goods> getByKindAndKeyWord(@PathVariable Integer id,@PathVariable String keyWord,@PathVariable Integer pageSize,@PathVariable Integer currentPage){
         return goodsService.getByKindAndKeyWord(currentPage,pageSize,id,keyWord);
     }
+
+    //以下添加按热度排序
+
+    //根据类别获取商品
+    @GetMapping("/kindAndLikeLevel/{id}/{pageSize}/{currentPage}")
+    public Page<Goods> getByKindAndLikeLevel(@PathVariable Integer id,@PathVariable Integer pageSize,@PathVariable Integer currentPage){
+        return goodsService.getByKindAndLikeLevel(currentPage,pageSize,id);
+    }
+
+    //根据关键字获取商品
+    @GetMapping("/keyWordAndLikeLevel/{keyWord}/{pageSize}/{currentPage}")
+    public Page<Goods> getByKeyWordAndLevel(@PathVariable String keyWord,@PathVariable Integer pageSize,@PathVariable Integer currentPage){
+        return goodsService.getByKeyWordAndLikeLevel(currentPage,pageSize,keyWord);
+    }
+
+    //根据类别和关键字获取商品
+    @GetMapping("/kindAndKeyWordAndLikeLevel/{id}/{keyWord}/{pageSize}/{currentPage}")
+    public Page<Goods> getByKindAndKeyWordAndLikeLevel(@PathVariable Integer id,@PathVariable String keyWord,@PathVariable Integer pageSize,@PathVariable Integer currentPage){
+        return goodsService.getByKindAndKeyWordAndLikeLevel(currentPage,pageSize,id,keyWord);
+    }
+
+    //获取商品列表
+    @GetMapping("/likeLevel/{pageSize}/{currentPage}")
+    public Page<Goods> getGoodsListByLikeLevel(@PathVariable Integer pageSize,@PathVariable Integer currentPage){
+        return goodsService.getByLikeLevel(currentPage,pageSize);
+    }
+
+    //给商品增加热度值
+    @PutMapping("/likeLevel/{id}")
+    public Boolean addLikeLevel(@PathVariable Integer id){
+        return goodsService.addLikeLevel(id);
+    }
 }

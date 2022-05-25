@@ -85,6 +85,7 @@
             axios.get("/goods/details/"+id).then((res)=>{
                 this.detailsList=res.data
             })
+            axios.put("goods/likeLevel/"+id)
         },
         mounted(){
 

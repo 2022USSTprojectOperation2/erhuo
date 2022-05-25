@@ -76,4 +76,31 @@ public interface GoodsDao {
     //获取根据关键字和类别搜索的个数
     @Select("select count(*) from tb_goods where kindId=#{kindId} and (goodsName like CONCAT('%',#{keyWord},'%') or introduction like CONCAT('%',#{keyWord},'%') )")
     Integer getSumByKindAndKeyWord(Integer kindId,String keyWord);
+
+
+    //以下添加按热度排序
+
+    //分页查询全部商品
+    @Select("select * from tb_goods where flag=0 order by likeLevel desc , id desc limit ${(currentPage-1)*pageSize},#{pageSize}")
+    List<Goods> selectAllByPageOrderByLikeLevel(Integer currentPage,Integer pageSize);
+
+
+    //根据商品类别分页查询
+    @Select("select * from tb_goods where kindId=#{kindId} and flag=0 order by likeLevel desc , id desc limit ${(currentPage-1)*pageSize},#{pageSize}")
+    List<Goods> selectByKindOrderByLikeLevel(Integer kindId,Integer currentPage,Integer pageSize);
+
+
+    //根据关键字搜索
+    @Select("select * from tb_goods where goodsName like CONCAT('%',#{keyWord},'%') or introduction like CONCAT('%',#{keyWord},'%') order by likeLevel desc , id desc limit ${(currentPage-1)*pageSize},#{pageSize}")
+    List<Goods> selectByKeyWordOrderByLikeLevel(String keyWord,Integer currentPage,Integer pageSize);
+
+
+    //根据关键字和类别搜索
+    @Select("select * from tb_goods where kindId=#{kindId} and (goodsName like CONCAT('%',#{keyWord},'%') or introduction like CONCAT('%',#{keyWord},'%') ) order by likeLevel desc , id desc limit ${(currentPage-1)*pageSize},#{pageSize}")
+    List<Goods> selectByKindAndKeyWordOrderByLikeLevel(Integer kindId,String keyWord,Integer currentPage,Integer pageSize);
+
+
+    //给商品增加热度值
+    @Update("update tb_goods set likeLevel=likeLevel+1 where id=#{id}")
+    Integer updateLikeLevel(Integer id);
 }

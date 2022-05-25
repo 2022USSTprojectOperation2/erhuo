@@ -113,4 +113,41 @@ public class GoodsServiceImpl implements GoodsService {
         page.setData(goodsDao.selectByKindAndKeyWord(kindId,keyWord,currentPage,pageSize));
         return page;
     }
+
+    @Override
+    public Page<Goods> getByLikeLevel(Integer currentPage, Integer pageSize) {
+        Page<Goods> page=new Page<>();
+        page.setTotalCount(goodsDao.getSum());
+        page.setData(goodsDao.selectAllByPageOrderByLikeLevel(currentPage,pageSize));
+        return page;
+    }
+
+    @Override
+    public Page<Goods> getByKindAndLikeLevel(Integer currentPage, Integer pageSize, Integer kindId) {
+        Page<Goods> page=new Page<>();
+        page.setTotalCount(goodsDao.getSumByKind(kindId));
+        page.setData(goodsDao.selectByKindOrderByLikeLevel(kindId,currentPage,pageSize));
+        return page;
+    }
+
+    @Override
+    public Page<Goods> getByKeyWordAndLikeLevel(Integer currentPage, Integer pageSize, String keyWord) {
+        Page<Goods> page=new Page<>();
+        page.setTotalCount(goodsDao.getSumByKeyWord(keyWord));
+        page.setData(goodsDao.selectByKeyWordOrderByLikeLevel(keyWord,currentPage,pageSize));
+        return page;
+    }
+
+    @Override
+    public Page<Goods> getByKindAndKeyWordAndLikeLevel(Integer currentPage, Integer pageSize, Integer kindId, String keyWord) {
+        Page<Goods> page=new Page<>();
+        page.setTotalCount(goodsDao.getSumByKindAndKeyWord(kindId,keyWord));
+        page.setData(goodsDao.selectByKindAndKeyWordOrderByLikeLevel(kindId,keyWord,currentPage,pageSize));
+        return page;
+    }
+
+    @Override
+    public Boolean addLikeLevel(Integer id) {
+        return goodsDao.updateLikeLevel(id)>0;
+    }
 }

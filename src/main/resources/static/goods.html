@@ -52,7 +52,7 @@
                             <i slot="prefix" class="el-input__icon el-icon-search"></i>
                         </el-input>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="3">
                         <el-select v-model="searchKindId" placeholder="选择商品类别" class="w-100">
                             <el-option
                                     v-for="item in kindList"
@@ -62,7 +62,16 @@
                             </el-option>
                         </el-select>
                     </el-col>
-                    <el-col :span="4">
+                    <el-col :span="3">
+                        <el-switch
+                                active-text="按热度"
+                                inactive-text="按时间"
+                                v-model="isLikeLevel"
+                                class="mt-2"
+                                @change="getGoods">
+                        </el-switch>
+                    </el-col>
+                    <el-col :span="2">
                         <el-button type="primary" icon="el-icon-search" @click="getGoods" class="w-100">搜索</el-button>
                     </el-col>
                 </el-row>
@@ -112,7 +121,8 @@
             kindList:[],
             searchKey:undefined,
             searchKindId:undefined,
-            currentPage:1
+            currentPage:1,
+            isLikeLevel:false
         },
         methods: {
             changePage(currentPage) {
@@ -120,32 +130,64 @@
                 this.getGoods()
             },
             getGoods(){
-                if(this.searchKey===undefined||this.searchKey===""){
-                    if(this.searchKindId===undefined||this.searchKindId===0){
-                        axios.get("/goods/all/" + this.pageSize + "/"+this.currentPage).then((res) => {
-                            this.goodsList = res.data.data
-                            this.total = res.data.totalCount
-                        })
+                if(this.isLikeLevel){
+                    if(this.searchKey===undefined||this.searchKey===""){
+                        if(this.searchKindId===undefined||this.searchKindId===0){
+                            axios.get("/goods/likeLevel/" + this.pageSize + "/"+this.currentPage).then((res) => {
+                                this.goodsList = res.data.data
+                                this.total = res.data.totalCount
+                            })
+                        }
+                        else{
+                            axios.get("/goods/kindAndLikeLevel/"+this.searchKindId+"/"+this.pageSize + "/"+this.currentPage).then((res)=>{
+                                this.goodsList = res.data.data
+                                this.total = res.data.totalCount
+                            })
+                        }
                     }
                     else{
-                        axios.get("/goods/kind/"+this.searchKindId+"/"+this.pageSize + "/"+this.currentPage).then((res)=>{
-                            this.goodsList = res.data.data
-                            this.total = res.data.totalCount
-                        })
+                        if(this.searchKindId===undefined||this.searchKindId===0){
+                            axios.get("/goods/keyWordAndLikeLevel/" +this.searchKey+"/"+ this.pageSize + "/"+this.currentPage).then((res) => {
+                                this.goodsList = res.data.data
+                                this.total = res.data.totalCount
+                            })
+                        }
+                        else{
+                            axios.get("/goods/kindAndKeyWordAndLikeLevel/"+this.searchKindId+"/"+this.searchKey+"/"+this.pageSize + "/"+this.currentPage).then((res)=>{
+                                this.goodsList = res.data.data
+                                this.total = res.data.totalCount
+                            })
+                        }
                     }
                 }
                 else{
-                    if(this.searchKindId===undefined||this.searchKindId===0){
-                        axios.get("/goods/keyWord/" +this.searchKey+"/"+ this.pageSize + "/"+this.currentPage).then((res) => {
-                            this.goodsList = res.data.data
-                            this.total = res.data.totalCount
-                        })
+                    if(this.searchKey===undefined||this.searchKey===""){
+                        if(this.searchKindId===undefined||this.searchKindId===0){
+                            axios.get("/goods/all/" + this.pageSize + "/"+this.currentPage).then((res) => {
+                                this.goodsList = res.data.data
+                                this.total = res.data.totalCount
+                            })
+                        }
+                        else{
+                            axios.get("/goods/kind/"+this.searchKindId+"/"+this.pageSize + "/"+this.currentPage).then((res)=>{
+                                this.goodsList = res.data.data
+                                this.total = res.data.totalCount
+                            })
+                        }
                     }
                     else{
-                        axios.get("/goods/kindAndKeyWord/"+this.searchKindId+"/"+this.searchKey+"/"+this.pageSize + "/"+this.currentPage).then((res)=>{
-                            this.goodsList = res.data.data
-                            this.total = res.data.totalCount
-                        })
+                        if(this.searchKindId===undefined||this.searchKindId===0){
+                            axios.get("/goods/keyWord/" +this.searchKey+"/"+ this.pageSize + "/"+this.currentPage).then((res) => {
+                                this.goodsList = res.data.data
+                                this.total = res.data.totalCount
+                            })
+                        }
+                        else{
+                            axios.get("/goods/kindAndKeyWord/"+this.searchKindId+"/"+this.searchKey+"/"+this.pageSize + "/"+this.currentPage).then((res)=>{
+                                this.goodsList = res.data.data
+                                this.total = res.data.totalCount
+                            })
+                        }
                     }
                 }
             }
