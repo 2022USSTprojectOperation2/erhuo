@@ -61,7 +61,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public Boolean delete(Goods goods) {
-        return null;
+        return goodsDao.delete(goods.getId())>0;
     }
 
     @Override

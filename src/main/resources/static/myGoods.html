@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap5/css/bootstrap.min.css">
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios-0.18.0.js"></script>
+    <link rel="stylesheet" href="./js/element-ui/lib/theme-chalk/index.css">
+    <script src="./js/element-ui/lib/index.js"></script>
+    <title>浏览商品</title>
+</head>
+<body style="background-color: #f7f7f7">
+<div id="app">
+    <template>
+        <el-container>
+            <el-header>
+                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                    <el-menu-item style="float: right" index="1">处理中心</el-menu-item>
+                    <el-submenu style="float: right" index="2">
+                        <template slot="title">我的工作台</template>
+                        <el-menu-item index="2-1">选项1</el-menu-item>
+                        <el-menu-item index="2-2">选项2</el-menu-item>
+                        <el-menu-item index="2-3">选项3</el-menu-item>
+                        <el-submenu index="2-4">
+                            <template slot="title">选项4</template>
+                            <el-menu-item index="2-4-1">选项1</el-menu-item>
+                            <el-menu-item index="2-4-2">选项2</el-menu-item>
+                            <el-menu-item index="2-4-3">选项3</el-menu-item>
+                        </el-submenu>
+                    </el-submenu>
+                    <el-menu-item style="float: right" index="3">消息中心</el-menu-item>
+                </el-menu>
+            </el-header>
+            <el-main>
+                <div class="container w-75 text-center">
+                    <el-table :data="goodsList" stripe class="fs-5">
+                        <el-table-column align="center">
+                            <template slot-scope="scope">
+                                <el-image
+                                        :src="scope.row.imgPath" fit="contain"
+                                        style="width: 100px; height: 100px"></el-image>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="goodsName" label="商品名称" align="center"></el-table-column>
+                        <el-table-column label="价格" align="center">
+                            <template slot-scope="scope">
+                                ￥&nbsp;{{scope.row.price}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作" align="center">
+                            <template slot-scope="scope">
+                                <el-button type="primary" @click="update(scope.row)">修改</el-button>
+                                <el-popconfirm
+                                        title="确定删除商品吗？"
+                                        @confirm="deleteGoods(scope.row)">
+                                    <el-button type="danger" slot="reference">删除</el-button>
+                                </el-popconfirm>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                    <el-pagination
+                            class="text-center"
+                            background
+                            layout="prev, pager, next"
+                            :total="total"
+                            :page-size="pageSize"
+                            @current-change="changePage">
+                    </el-pagination>
+                </div>
+            </el-main>
+        </el-container>
+    </template>
+</div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            goodsList:[],
+            currentPage:1,
+            pageSize: 12,
+            total: 0,
+        },
+        methods: {
+            changePage(currentPage){
+                this.currentPage=currentPage
+                this.getGoods()
+            },
+            getGoods(){
+                axios.get("/goods/myGoods/"+this.pageSize+"/"+this.currentPage).then((res)=>{
+                    this.goodsList=res.data.data
+                    this.total = res.data.totalCount
+                })
+            },
+            update(row){
+                location.href="/updateGoods.html?id="+row.id
+            },
+            deleteGoods(row){
+                axios.delete("/goods/"+row.id).then((res)=>{
+                    if(res.data){
+                        this.$message({
+                            showClose: true,
+                            message: '删除成功',
+                            type: 'success'
+                        })
+                    }
+                    else{
+                        this.$message({
+                            showClose: true,
+                            message: '删除失败',
+                            type: 'error'
+                        })
+                    }
+                    this.getGoods()
+                })
+            }
+        },
+        created() {
+            this.getGoods()
+        },
+        mounted(){
+
+        }
+    })
+</script>
+</html>

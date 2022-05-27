@@ -28,7 +28,7 @@ server:
 img-path:
   #填电脑上当前项目的文件夹
   local: D:\code\erhuo\src\main\resources\static\img\
-  #填电脑上当前项目的target对应的文件夹)
-  target: C:\Users\huangyuan\Desktop\erhuo\target\classes\static\
+# 填电脑上当前项目的target对应的文件夹，演示时用这条配置）
+# local: D:\code\erhuo\target\classes\static\img\
   #从网页上访问服务器的路径，不需要动
   server: ./img/

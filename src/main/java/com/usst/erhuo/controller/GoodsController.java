@@ -43,6 +43,13 @@ public class GoodsController {
         return goodsService.getAll(currentPage,pageSize);
     }
 
+    //获取当前登录的用户的所有商品
+    @GetMapping("/myGoods/{pageSize}/{currentPage}")
+    public Page<Goods> getMyGoods(@PathVariable Integer pageSize,@PathVariable Integer currentPage,HttpSession session){
+        Integer userId= (Integer) session.getAttribute("userId");
+        return goodsService.getByUser(currentPage,pageSize,userId);
+    }
+
     //根据id获取商品
     @GetMapping("/{id}")
     public Goods getGoods(@PathVariable Integer id){
@@ -69,6 +76,13 @@ public class GoodsController {
     @PutMapping("/details/{goodsId}")
     public Boolean updateDetails(@RequestBody List<String> imgPathList,@PathVariable Integer goodsId){
         return goodsService.updateDetails(imgPathList,goodsId);
+    }
+
+    @DeleteMapping("/{id}")
+    public Boolean deleteGoods(@PathVariable Integer id){
+        Goods goods=new Goods();
+        goods.setId(id);
+        return goodsService.delete(goods);
     }
 
     //根据类别获取商品

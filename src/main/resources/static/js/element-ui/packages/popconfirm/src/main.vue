@@ -87,7 +87,7 @@ export default {
   methods: {
     confirm() {
       this.visible = false;
-      this.$emit('onConfirm');
+      this.$emit('confirm');
     },
     cancel() {
       this.visible = false;
