@@ -56,10 +56,9 @@
                     </el-col>
                 </el-row>
             </div>
-            <el-row :gutter="24" class="m-5">
-                <el-col :span="4" :offset="8"><el-button type="primary" class="w-100 fs-4">立刻订购</el-button></el-col>
-                <el-col :span="4"><el-button plain class="w-100 fs-4">加入购物车</el-button></el-col>
-            </el-row>
+            <div class="m-5 text-center">
+                <el-button type="primary" ref="btn" class="w-25 fs-4" @click="purchase">购买</el-button>
+            </div>
             <div class="container bg-white p-3 text-center" style="border-radius: 12px" v-if="detailsList[0]">
                 <div v-for="img in detailsList">
                     <el-image :src="img" fit="contain" class="m-3"></el-image>
@@ -79,7 +78,25 @@
             user:{}
         },
         methods: {
-
+            purchase(){
+                axios.post("/deals",this.goods).then((res)=>{
+                    if(res.data){
+                        this.$message({
+                            showClose: true,
+                            message: '购买成功',
+                            type: 'success'
+                        })
+                        this.$refs.btn.disabled = true
+                    }
+                    else{
+                        this.$message({
+                            showClose: true,
+                            message: '购买失败',
+                            type: 'error'
+                        })
+                    }
+                })
+            }
         },
         created() {
             let search=window.location.search

@@ -186,12 +186,14 @@
                             this.imgList.push(this.detailsList[i].response)
                         }
                         axios.put("/goods/details/" + this.goods.id, this.imgList).then((res) => {
-                            this.$message({
-                                showClose: true,
-                                message: '修改成功',
-                                type: 'success'
-                            })
-                            this.$refs.btn.disabled = true
+                            if(res.data){
+                                this.$message({
+                                    showClose: true,
+                                    message: '修改成功',
+                                    type: 'success'
+                                })
+                                this.$refs.btn.disabled = true
+                            }
                         })
                     })
                 }

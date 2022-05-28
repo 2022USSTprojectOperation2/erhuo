@@ -21,7 +21,6 @@ public interface GoodsService {
     Integer add(Goods goods);
     Boolean update(Goods goods);
     Boolean delete(Goods goods);
-    Boolean buy(Goods goods,Integer userId);
     Boolean addDetails(List<String> imgPathList,Integer goodsId);
     Boolean updateDetails(List<String> imgPathList,Integer goodsId);
     Boolean addLikeLevel(Integer id);

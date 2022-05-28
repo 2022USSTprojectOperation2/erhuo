@@ -65,11 +65,6 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public Boolean buy(Goods goods, Integer userId) {
-        return null;
-    }
-
-    @Override
     public List<Kind> getKindList() {
         return kindDao.selectAll();
     }

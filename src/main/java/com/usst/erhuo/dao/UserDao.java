@@ -37,7 +37,7 @@ public interface UserDao{
 
 
     //获取用户信息
-    @Select("select userName,phone,headImgPath,exp,introduction,grade,major,address from tb_user where id = #{id}")
+    @Select("select * from tb_user where id = #{id}")
     User getUserInfo(Integer id);
 
 

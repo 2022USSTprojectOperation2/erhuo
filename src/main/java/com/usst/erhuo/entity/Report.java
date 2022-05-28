@@ -9,4 +9,5 @@ public class Report {
     private int id;
     private int goodsId;
     private int userId;
+    private String reason;
 }

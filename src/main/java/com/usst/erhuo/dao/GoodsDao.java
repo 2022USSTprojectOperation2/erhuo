@@ -24,6 +24,9 @@ public interface GoodsDao {
     Integer update(Integer id,String goodsName,Double price,String imgPath,String introduction,Integer kindId);
 
 
+    @Update("update tb_goods set flag=#{flag} where id=#{id}")
+    Integer updateFlag(Integer id,Integer flag);
+
     //通过商品id查单个商品
     @Select("select * from tb_goods where id=#{id}")
     Goods selectById(Integer id);

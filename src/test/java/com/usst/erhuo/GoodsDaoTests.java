@@ -1,10 +1,14 @@
 package com.usst.erhuo;
 
+import com.usst.erhuo.dao.DealDao;
 import com.usst.erhuo.dao.GoodsDao;
+import com.usst.erhuo.entity.Deal;
 import com.usst.erhuo.entity.Goods;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 public class GoodsDaoTests {
@@ -34,5 +38,13 @@ public class GoodsDaoTests {
     @Test
     void testSum(){
         System.out.println(goodsDao.getSum());
+    }
+
+    @Autowired
+    private DealDao dealDao;
+
+    @Test
+    void testDeal(){
+
     }
 }
