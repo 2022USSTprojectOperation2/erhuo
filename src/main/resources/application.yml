@@ -3,8 +3,11 @@ spring:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/db_erhuo?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-      password: root
-      username: root
+      password: db_erhuo
+      username: db_erhuo
+  web:
+    resources:
+      static-locations: classpath:static/,file:static/
 #??????????
 
 mybatis-plus:
@@ -22,7 +25,7 @@ server:
 
 
 #???????
-  port: 80
+  port: 2222
 
 #存图片的路径
 img-path:
@@ -31,4 +34,4 @@ img-path:
 # 填电脑上当前项目的target对应的文件夹，演示时用这条配置）
 # local: D:\code\erhuo\target\classes\static\img\
   #从网页上访问服务器的路径，不需要动
-  server: ./img/
+  server: /img/
