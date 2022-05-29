@@ -15,9 +15,15 @@
     <el-container>
         <el-header>
             <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                <el-menu-item style="float: right" index="5">
-                    <a style="text-decoration: none" href="userDetails.html">我的信息</a>
-                </el-menu-item>
+                <el-submenu style="float: right;margin-top: 2px" index="5">
+                    <template slot="title">个人中心</template>
+                    <el-menu-item index="5-1">
+                        <a style="text-decoration: none" href="userDetails.html" class="text-secondary">我的信息</a>
+                    </el-menu-item>
+                    <el-menu-item index="5-2">
+                        <a style="text-decoration: none" href="changeUserPassword.html" class="text-secondary">修改密码</a>
+                    </el-menu-item>
+                </el-submenu>
                 <el-submenu style="float: right;margin-top: 2px" index="4">
                     <template slot="title">我的交易</template>
                     <el-menu-item index="4-1">
@@ -49,9 +55,11 @@
                 <el-table :data="dealList" stripe class="fs-5 mt-3">
                     <el-table-column align="center">
                         <template slot-scope="scope">
-                            <el-image
-                                    :src="scope.row.goods.imgPath" fit="contain"
-                                    style="width: 100px; height: 100px"></el-image>
+                            <a :href="'details.html?id='+scope.row.goods.id" style="text-decoration: none">
+                                <img
+                                        :src="scope.row.goods.imgPath"
+                                        style="width: 100px; height: 100px;object-fit: contain">
+                            </a>
                         </template>
                     </el-table-column>
                     <el-table-column prop="goods.goodsName" label="商品名称" align="center"></el-table-column>
