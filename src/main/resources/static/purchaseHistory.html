@@ -8,100 +8,106 @@
     <script src="./js/axios-0.18.0.js"></script>
     <link rel="stylesheet" href="./js/element-ui/lib/theme-chalk/index.css">
     <script src="./js/element-ui/lib/index.js"></script>
-    <title>浏览商品</title>
+    <title>我的购买</title>
 </head>
 <body style="background-color: #f7f7f7">
 <div id="app">
-    <template>
-        <el-container>
-            <el-header>
-                <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-                    <el-menu-item style="float: right" index="1">处理中心</el-menu-item>
-                    <el-submenu style="float: right" index="2">
-                        <template slot="title">我的工作台</template>
-                        <el-menu-item index="2-1">选项1</el-menu-item>
-                        <el-menu-item index="2-2">选项2</el-menu-item>
-                        <el-menu-item index="2-3">选项3</el-menu-item>
-                        <el-submenu index="2-4">
-                            <template slot="title">选项4</template>
-                            <el-menu-item index="2-4-1">选项1</el-menu-item>
-                            <el-menu-item index="2-4-2">选项2</el-menu-item>
-                            <el-menu-item index="2-4-3">选项3</el-menu-item>
-                        </el-submenu>
-                    </el-submenu>
-                    <el-menu-item style="float: right" index="3">消息中心</el-menu-item>
-                </el-menu>
-            </el-header>
-            <el-main>
-                <div class="container text-center">
-                    <el-radio-group v-model="mode" class="mt-3" @change="changeMode">
-                        <el-radio-button label="全部"></el-radio-button>
-                        <el-radio-button label="交易中"></el-radio-button>
-                        <el-radio-button label="交易成功"></el-radio-button>
-                        <el-radio-button label="交易失败"></el-radio-button>
-                    </el-radio-group>
-                    <el-table :data="dealList" stripe class="fs-5 mt-3">
-                        <el-table-column align="center">
-                            <template slot-scope="scope">
-                                <el-image
-                                        :src="scope.row.goods.imgPath" fit="contain"
-                                        style="width: 100px; height: 100px"></el-image>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="goods.goodsName" label="商品名称" align="center"></el-table-column>
-                        <el-table-column label="价格" align="center">
-                            <template slot-scope="scope">
-                                ￥&nbsp;{{scope.row.goods.price}}
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="卖家" align="center">
-                            <template slot-scope="scope">
-                                <a :href="'/userDetails.html?id='+scope.row.user.id" style="text-decoration: none">
-                                    <span class="text-primary">@{{scope.row.user.userName}}</span>
-                                </a>
-                            </template>
-                        </el-table-column>
-                        <el-table-column prop="state" label="交易状态" align="center"></el-table-column>
-                        <el-table-column label="操作" align="center">
-                            <template slot-scope="scope">
-                                <div v-if="scope.row.state=='交易中'">
-                                    <el-popconfirm
-                                            title="确定完成交易吗？"
-                                            @confirm="checkDeal(scope.row)">
-                                        <el-button type="primary" slot="reference">交易完成</el-button>
-                                    </el-popconfirm>
-                                </div>
-                                <div v-if="scope.row.state=='交易中'">
-                                    <el-button  type="danger" class="mt-1" @click="open(scope.row)">交易申诉</el-button>
-                                </div>
-                                <div v-if="scope.row.state!='交易中'">
-                                    <el-popconfirm
-                                            title="确定隐藏吗？"
-                                            @confirm="hideDeal(scope.row)">
-                                        <el-button  type="info" slot="reference">隐藏交易</el-button>
-                                    </el-popconfirm>
-                                </div>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                    <el-pagination
-                            class="text-center mt-3"
-                            background
-                            layout="prev, pager, next"
-                            :total="total"
-                            :page-size="pageSize"
-                            @current-change="changePage">
-                    </el-pagination>
-                </div>
-            </el-main>
-        </el-container>
-    </template>
+    <el-container>
+        <el-header>
+            <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+                <el-menu-item style="float: right" index="5">
+                    <a style="text-decoration: none" href="userDetails.html">我的信息</a>
+                </el-menu-item>
+                <el-submenu style="float: right;margin-top: 2px" index="4">
+                    <template slot="title">我的交易</template>
+                    <el-menu-item index="4-1">
+                        <a style="text-decoration: none" href="purchaseHistory.html" class="text-secondary">我的购买</a>
+                    </el-menu-item>
+                    <el-menu-item index="4-2">
+                        <a style="text-decoration: none" href="sellHistory.html" class="text-secondary">我的卖出</a>
+                    </el-menu-item>
+                </el-submenu>
+                <el-menu-item style="float: right" index="3">
+                    <a style="text-decoration: none" href="myGoods.html">我的商品</a>
+                </el-menu-item>
+                <el-menu-item style="float: right" index="2">
+                    <a style="text-decoration: none" href="addGoods.html">商品发布</a>
+                </el-menu-item>
+                <el-menu-item style="float: right" index="1">
+                    <a style="text-decoration: none" href="goods.html">商品浏览</a>
+                </el-menu-item>
+            </el-menu>
+        </el-header>
+        <el-main>
+            <div class="container text-center">
+                <el-radio-group v-model="mode" class="mt-3" @change="changeMode">
+                    <el-radio-button label="全部"></el-radio-button>
+                    <el-radio-button label="交易中"></el-radio-button>
+                    <el-radio-button label="交易成功"></el-radio-button>
+                    <el-radio-button label="交易失败"></el-radio-button>
+                </el-radio-group>
+                <el-table :data="dealList" stripe class="fs-5 mt-3">
+                    <el-table-column align="center">
+                        <template slot-scope="scope">
+                            <el-image
+                                    :src="scope.row.goods.imgPath" fit="contain"
+                                    style="width: 100px; height: 100px"></el-image>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="goods.goodsName" label="商品名称" align="center"></el-table-column>
+                    <el-table-column label="价格" align="center">
+                        <template slot-scope="scope">
+                            ￥&nbsp;{{scope.row.goods.price}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column label="卖家" align="center">
+                        <template slot-scope="scope">
+                            <a :href="'/userDetails.html?id='+scope.row.user.id" style="text-decoration: none">
+                                <span class="text-primary">@{{scope.row.user.userName}}</span>
+                            </a>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="state" label="交易状态" align="center"></el-table-column>
+                    <el-table-column label="操作" align="center">
+                        <template slot-scope="scope">
+                            <div v-if="scope.row.state=='交易中'">
+                                <el-popconfirm
+                                        title="确定完成交易吗？"
+                                        @confirm="checkDeal(scope.row)">
+                                    <el-button type="primary" slot="reference">交易完成</el-button>
+                                </el-popconfirm>
+                            </div>
+                            <div v-if="scope.row.state=='交易中'">
+                                <el-button type="danger" class="mt-1" @click="open(scope.row)">交易申诉</el-button>
+                            </div>
+                            <div v-if="scope.row.state!='交易中'">
+                                <el-popconfirm
+                                        title="确定隐藏吗？"
+                                        @confirm="hideDeal(scope.row)">
+                                    <el-button type="info" slot="reference">隐藏交易</el-button>
+                                </el-popconfirm>
+                            </div>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <el-pagination
+                        class="text-center mt-3"
+                        background
+                        layout="prev, pager, next"
+                        :total="total"
+                        :page-size="pageSize"
+                        @current-change="changePage">
+                </el-pagination>
+            </div>
+        </el-main>
+    </el-container>
 </div>
 </body>
 <script>
     new Vue({
         el: '#app',
         data: {
+            activeIndex: '4-1',
             dealList: [],
             mode: '全部',
             currentPage: 1,
@@ -128,8 +134,8 @@
                 this.$prompt('请输入申诉理由', '交易申诉', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
-                }).then(({ value }) => {
-                    this.argueDeal(row,value)
+                }).then(({value}) => {
+                    this.argueDeal(row, value)
                 }).catch(() => {
                     this.$message({
                         type: 'info',
@@ -137,17 +143,16 @@
                     });
                 });
             },
-            checkDeal(row){
-                axios.put("/deals/checkDeal/"+row.deal.id).then((res)=>{
-                    if(res.data){
+            checkDeal(row) {
+                axios.put("/deals/checkDeal/" + row.deal.id).then((res) => {
+                    if (res.data) {
                         this.$message({
                             showClose: true,
                             message: '确认成功',
                             type: 'success'
                         })
                         this.getDealList()
-                    }
-                    else{
+                    } else {
                         this.$message({
                             showClose: true,
                             message: '确认失败',
@@ -156,17 +161,16 @@
                     }
                 })
             },
-            argueDeal(row,reason){
-                axios.post("/deals/argueDeal/"+row.deal.id,reason).then((res)=>{
-                    if(res.data){
+            argueDeal(row, reason) {
+                axios.post("/deals/argueDeal/" + row.deal.id, reason).then((res) => {
+                    if (res.data) {
                         this.$message({
                             showClose: true,
                             message: '申诉成功',
                             type: 'success'
                         })
                         this.getDealList()
-                    }
-                    else{
+                    } else {
                         this.$message({
                             showClose: true,
                             message: '申诉失败',
@@ -175,17 +179,16 @@
                     }
                 })
             },
-            hideDeal(row){
-                axios.put("/deals/purchaseHideDeal/"+row.deal.id).then((res)=>{
-                    if(res.data){
+            hideDeal(row) {
+                axios.put("/deals/purchaseHideDeal/" + row.deal.id).then((res) => {
+                    if (res.data) {
                         this.$message({
                             showClose: true,
                             message: '隐藏成功',
                             type: 'success'
                         })
                         this.getDealList()
-                    }
-                    else{
+                    } else {
                         this.$message({
                             showClose: true,
                             message: '隐藏失败',

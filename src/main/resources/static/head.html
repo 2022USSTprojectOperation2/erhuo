@@ -1,0 +1,25 @@
+<el-header>
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+        <el-menu-item style="float: right" index="5">
+            <a style="text-decoration: none" href="userDetails.html">我的信息</a>
+        </el-menu-item>
+        <el-submenu style="float: right;margin-top: 2px" index="4">
+            <template slot="title">我的交易</template>
+            <el-menu-item index="4-1">
+                <a style="text-decoration: none" href="purchaseHistory.html" class="text-secondary">我的购买</a>
+            </el-menu-item>
+            <el-menu-item index="4-2">
+                <a style="text-decoration: none" href="sellHistory.html" class="text-secondary">我的卖出</a>
+            </el-menu-item>
+        </el-submenu>
+        <el-menu-item style="float: right" index="3">
+            <a style="text-decoration: none" href="myGoods.html">我的商品</a>
+        </el-menu-item>
+        <el-menu-item style="float: right" index="2">
+            <a style="text-decoration: none" href="addGoods.html">商品发布</a>
+        </el-menu-item>
+        <el-menu-item style="float: right" index="1">
+            <a style="text-decoration: none" href="goods.html">商品浏览</a>
+        </el-menu-item>
+    </el-menu>
+</el-header>
