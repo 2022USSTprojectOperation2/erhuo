@@ -22,6 +22,13 @@ public class UserServiceImpl implements UserService {
     }
 
 
+    @Override
+    public Integer checkUserPassword(Integer userId,String password) {
+        User user = userDao.getUserInfo(userId);
+        if(user.getPassword().equals(password))return 1;
+        return 0;
+    }
+
     //用户登录
     @Override
     public Integer userLogin(String userName,String password) {

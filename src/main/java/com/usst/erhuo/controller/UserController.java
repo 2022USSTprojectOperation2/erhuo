@@ -35,6 +35,11 @@ public class UserController {
         return userService.checkUserLogin(userName);
     }
 
+    @RequestMapping("/checkUserPassword/{password}")
+    public Integer checkUserPassword(@PathVariable String password,HttpSession session){
+        return userService.checkUserPassword((Integer) session.getAttribute("userId"),password);
+    }
+
     //用户注册
     @RequestMapping("/register")
     public Integer userRegister(@RequestBody User user,HttpSession session){
@@ -45,8 +50,8 @@ public class UserController {
     }
 
     //密码修改
-    @RequestMapping("changePassword")
-    public void changePassword(String password,HttpSession session){
+    @RequestMapping("changePassword/{password}")
+    public void changePassword(@PathVariable String password,HttpSession session){
         Integer userId = (Integer) session.getAttribute("userId");
         userService.changePassword(password,userId);
     }
