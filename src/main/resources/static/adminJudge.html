@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" href="css/bootstrap5/css/bootstrap.min.css">
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios-0.18.0.js"></script>
+    <link rel="stylesheet" href="./js/element-ui/lib/theme-chalk/index.css">
+    <script src="./js/element-ui/lib/index.js"></script>
+    <title>管理员下架商品</title>
+    <style>
+        .el-header, .el-footer {
+            background-color: #25cff2;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <el-container>
+        <el-header>管理员管理</el-header>
+    </el-container>
+    <template>
+        <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
+            <el-tab-pane label="审核举报" name="first"></el-tab-pane>
+            <el-tab-pane label="交易管理" name="second"></el-tab-pane>
+            <el-tab-pane label="商品管理" name="third"></el-tab-pane>
+        </el-tabs>
+    </template>
+    <div class="container my-5">
+
+
+        <template>
+            <el-table
+                    :data="reportList"
+                    style="width: 100%">
+
+
+                <el-table-column
+                        label="举报人用户名"
+                        width="180">
+                    <template slot-scope="scope">
+                        <a @click="user(scope.row.userId)" style="color:blue;cursor:pointer;font-size: 100%;">
+                            {{ scope.row.userName }}</a>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        prop="goodsName"
+                        label="商品名">
+                </el-table-column>
+                <el-table-column
+                        prop="reason"
+                        label="举报说明">
+                </el-table-column>
+
+                <el-table-column
+                        label="商品">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="mini" @click="jump(scope.row.goodsId)">查看</el-button>
+                    </template>
+                </el-table-column>
+
+
+                <el-table-column
+                        label="操作">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="mini" @click="cancel(scope.row.goodsId)">忽略</el-button>
+                        <el-button type="danger" size="mini" @click="down(scope.row.goodsId)">下架</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+
+    </div>
+
+    <div class="container my-5" align="center">
+        <template>
+            <div class="block">
+                <el-pagination
+                        @current-change="changePage"
+                        :page-size="pageSize"
+                        layout="total, prev, pager, next"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </template>
+    </div>
+</div>
+
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            reportList: [],
+            total: 0,
+            pageSize: 10,
+            searchKey: undefined,
+            searchKindId: undefined,
+            currentPage: 1,
+            activeName: "first",
+        },
+        mounted() {
+
+            this.getAllReport();
+
+        },
+        methods: {
+            changePage(currentPage) {
+                this.currentPage = currentPage
+                this.getAllReport();
+            },
+            getAllReport() {
+
+                axios.get("/admin/report/" + this.pageSize + "/" + this.currentPage).then((res) => {
+                    this.reportList = res.data.data
+                    this.total = res.data.totalCount
+                })
+
+
+            },
+            jump(id) {
+                location.href = "details.html?id=" + id;
+            },
+            user(id) {
+                location.href = "userInfo.html?id=" + id;
+            },
+            cancel(id) {
+                axios.get("/admin/cancelReport/" + id).then((res) => {
+                    this.getAllReport();
+                })
+
+            },
+            down(id) {
+                axios.get("/admin/downReport/" + id).then((res) => {
+                    this.getAllReport();
+                })
+
+            },
+            handleClick() {
+                if (this.activeName === "second") {
+                    this.second();
+                }else if (this.activeName === "third"){
+                    this.third();
+                }
+            },
+            second(){
+                location.href="adminDeal.html"
+            },
+            third(){
+                location.href="adminGoods.html"
+            }
+
+        }
+    })
+</script>
+</html>

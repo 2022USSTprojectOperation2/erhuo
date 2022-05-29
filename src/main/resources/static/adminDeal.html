@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" href="css/bootstrap5/css/bootstrap.min.css">
+    <script src="./js/vue.js"></script>
+    <script src="./js/axios-0.18.0.js"></script>
+    <link rel="stylesheet" href="./js/element-ui/lib/theme-chalk/index.css">
+    <script src="./js/element-ui/lib/index.js"></script>
+    <title>管理员查看交易</title>
+    <style>
+        .el-header, .el-footer {
+            background-color: #25cff2;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header>管理员管理</el-header>
+    </el-container>
+    <template>
+        <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
+            <el-tab-pane label="审核举报" name="first"></el-tab-pane>
+            <el-tab-pane label="交易管理" name="second"></el-tab-pane>
+            <el-tab-pane label="商品管理" name="third"></el-tab-pane>
+        </el-tabs>
+    </template>
+    <div class="container my-5">
+        <el-row :gutter="10">
+            <el-col :span="16">
+                <el-input v-model="searchKey" placeholder="请输入内容">
+                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                </el-input>
+            </el-col>
+            <el-col :span="5">
+                <el-select v-model="searchKindId" placeholder="选择商品类别" class="w-100">
+                    <el-option
+                            v-for="item in kindList"
+                            :key="item.id"
+                            :label="item.kindName"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-col>
+
+            <el-col :span="3">
+                <el-button type="primary" icon="el-icon-search" @click="getAllDeal" class="w-100">搜索</el-button>
+            </el-col>
+        </el-row>
+    </div>
+    <div class="container my-5">
+
+
+        <template>
+            <el-table
+                    :data="dealList"
+                    style="width: 100%">
+                <el-table-column
+                        label="买家用户名"
+                        width="180">
+                    <template slot-scope="scope">
+                        <a @click="user(scope.row.userId)" style="color:blue;cursor:pointer;font-size: 100%;">
+                            {{ scope.row.userName }}</a>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        prop="goodsName"
+                        label="商品名"
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="kindName"
+                        label="商品类别">
+                </el-table-column>
+                <el-table-column
+                        prop="price"
+                        label="价格">
+                </el-table-column>
+                <el-table-column
+                        label="标记">
+                    <template slot-scope="scope">
+                        <h6 v-if="scope.row.flag==0">交易失败</h6>
+                        <h6 v-if="scope.row.flag==1">交易中</h6>
+                        <h6 v-if="scope.row.flag==2">交易完成</h6>
+                        <h6 v-if="scope.row.flag==3">交易完成：买方隐藏</h6>
+                        <h6 v-if="scope.row.flag==4">交易完成：买方隐藏</h6>
+                        <h6 v-if="scope.row.flag==5">双方隐藏</h6>
+                        <h6 v-if="scope.row.flag==6">交易失败：卖方隐藏</h6>
+                        <h6 v-if="scope.row.flag==7">交易失败：买方隐藏</h6>
+                    </template>
+                </el-table-column>
+                <el-table-column
+                        label="查看商品">
+                    <template slot-scope="scope">
+                        <el-button type="primary" size="mini" @click="jump(scope.row.goodsId)">查看</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </template>
+
+    </div>
+
+    <div class="container my-5" align="center">
+        <template>
+            <div class="block">
+                <el-pagination
+                        @current-change="changePage"
+                        :page-size="pageSize"
+                        layout="total, prev, pager, next"
+                        :total="total">
+                </el-pagination>
+            </div>
+        </template>
+    </div>
+</div>
+
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            dealList: [],
+            total: 0,
+            pageSize: 10,
+            kindList: [],
+            searchKey: undefined,
+            searchKindId: undefined,
+            currentPage: 1,
+            activeName: "second",
+        },
+        mounted() {
+            this.kindList = [{id: 0, kindName: "全部"}]
+            axios.get("/goods/kindList").then((res) => {
+                for (let i in res.data) {
+                    this.kindList.push(res.data[i])
+                }
+            })
+            this.getAllDeal();
+
+        },
+        methods: {
+            changePage(currentPage) {
+                this.currentPage = currentPage
+                this.getAllDeal();
+            },
+            getAllDeal() {
+
+                if (this.searchKey === undefined || this.searchKey === "") {
+                    if (this.searchKindId === undefined || this.searchKindId === 0) {
+                        axios.get("/admin/deal/" + this.pageSize + "/" + this.currentPage).then((res) => {
+                            this.dealList = res.data.data
+                            this.total = res.data.totalCount
+                        })
+                    } else {
+                        axios.get("/admin/kindDeal/" + this.searchKindId + "/" + this.pageSize + "/" + this.currentPage).then((res) => {
+                            this.dealList = res.data.data
+                            this.total = res.data.totalCount
+                        })
+                    }
+                } else {
+                    if (this.searchKindId === undefined || this.searchKindId === 0) {
+                        axios.get("/admin/keyDeal/" + this.searchKey + "/" + this.pageSize + "/" + this.currentPage).then((res) => {
+                            this.dealList = res.data.data
+                            this.total = res.data.totalCount
+                        })
+                    } else {
+                        axios.get("/admin/kindKeyDeal/" + this.searchKindId + "/" + this.searchKey + "/" + this.pageSize + "/" + this.currentPage).then((res) => {
+                            this.dealList = res.data.data
+                            this.total = res.data.totalCount
+                        })
+                    }
+                }
+
+            },
+            jump(id) {
+                location.href = "details.html?id=" + id;
+            },
+            user(id) {
+                location.href = "userInfo.html?id=" + id;
+            },
+            handleClick() {
+                if (this.activeName === "first") {
+                    this.first();
+                } else if (this.activeName === "third") {
+                    this.third();
+                }
+            },
+            first() {
+                location.href = "adminJudge.html"
+            },
+            third() {
+                location.href = "adminGoods.html"
+            }
+        }
+    })
+</script>
+</html>
