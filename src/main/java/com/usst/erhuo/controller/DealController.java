@@ -3,6 +3,7 @@ package com.usst.erhuo.controller;
 import com.usst.erhuo.entity.Deal;
 import com.usst.erhuo.entity.Goods;
 import com.usst.erhuo.entity.Page;
+import com.usst.erhuo.entity.Report;
 import com.usst.erhuo.service.DealService;
 import com.usst.erhuo.vo.DealHistory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,9 +82,10 @@ public class DealController {
     }
 
     @PostMapping("/argueDeal/{id}")
-    public Boolean argueDeal(@PathVariable Integer id,@RequestBody String reason,HttpSession session){
+    public Boolean argueDeal(@PathVariable Integer id, @RequestBody Report report, HttpSession session){
+        String reason=report.getReason();
         Integer userId= (Integer) session.getAttribute("userId");
-        return dealService.argueDeal(id,userId,reason.substring(0,reason.length()-1));
+        return dealService.argueDeal(id,userId,reason);
     }
 
     @PutMapping("/purchaseHideDeal/{id}")

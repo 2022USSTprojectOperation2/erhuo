@@ -121,6 +121,7 @@
             currentPage: 1,
             pageSize: 12,
             total: 0,
+            report:{}
         },
         methods: {
             changePage(currentPage) {
@@ -170,7 +171,8 @@
                 })
             },
             argueDeal(row, reason) {
-                axios.post("/deals/argueDeal/" + row.deal.id, reason).then((res) => {
+                this.report.reason=reason
+                axios.post("/deals/argueDeal/" + row.deal.id, this.report).then((res) => {
                     if (res.data) {
                         this.$message({
                             showClose: true,
