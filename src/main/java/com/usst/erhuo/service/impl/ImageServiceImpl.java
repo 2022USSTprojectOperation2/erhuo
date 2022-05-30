@@ -44,7 +44,6 @@ public class ImageServiceImpl implements ImageService {
         if(!upLoad.exists()){
             upLoad.mkdirs();
         }
-        System.out.println("路径为"+upLoad.getAbsolutePath());
         String visibleUri=serverPath+"cover/"+userId+"/"+fileName;
         try {
             file.transferTo(upLoad);

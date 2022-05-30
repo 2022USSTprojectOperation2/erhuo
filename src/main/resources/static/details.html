@@ -74,7 +74,7 @@
             </div>
             <div class="container bg-white p-3 text-center" style="border-radius: 12px" v-if="detailsList[0]">
                 <div v-for="img in detailsList">
-                    <el-image :src="img" fit="contain" class="m-3"></el-image>
+                    <img :src="img" style="object-fit: contain" class="m-3">
                 </div>
             </div>
         </el-main>
