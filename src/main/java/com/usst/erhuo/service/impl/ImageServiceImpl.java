@@ -70,7 +70,7 @@ public class ImageServiceImpl implements ImageService {
         if(!upLoad.exists()){
             upLoad.mkdirs();
         }
-        String visibleUri=serverPath+"cover/"+userId+"/"+fileName;
+        String visibleUri=serverPath+"details/"+userId+"/"+fileName;
         try {
             file.transferTo(upLoad);
         } catch (IOException e) {
