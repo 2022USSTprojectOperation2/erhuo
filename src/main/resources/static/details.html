@@ -49,7 +49,7 @@
             <div class="container bg-white p-3" style="border-radius: 12px">
                 <el-row :gutter="20">
                     <el-col :span="12" class="text-end">
-                        <el-image :src="goods.imgPath" fit="contain" v-if="goods.imgPath"></el-image>
+                        <img :src="goods.imgPath" style="object-fit: contain" v-if="goods.imgPath">
                     </el-col>
                     <el-col :span="12" class="p-5">
                         <p class="fs-1">{{goods.goodsName}}</p>
